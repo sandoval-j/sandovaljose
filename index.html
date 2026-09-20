@@ -33,7 +33,7 @@ body{
 img,svg{max-width:100%;}
 a{ color:inherit; }
 
-/* NAV — remove this block if embedding as a Wix section */
+/* NAV */
 .nav{
   position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92); backdrop-filter:blur(6px);
   border-bottom:1px solid var(--line);
@@ -88,6 +88,10 @@ p.body-text{ font-size:1.05rem; line-height:1.65; max-width:58ch; margin:0 0 1re
 .hero__subtitle{ font-family:var(--sans); font-size:1rem; color:#e7dbe0; max-width:42ch; line-height:1.6; margin:0 0 2.2rem; }
 .hero__cta{ display:inline-flex; align-items:center; gap:.6rem; font-family:var(--sans); font-size:.78rem; letter-spacing:.08em; color:#0a0a0a; background:var(--wine-bright); padding:.9rem 1.5rem; text-decoration:none; }
 .hero__cta:hover{ background:#fff; }
+.btn-more{ display:inline-flex; align-items:center; gap:.5rem; margin-top:2rem; font-family:var(--sans); font-size:.74rem; font-weight:600; letter-spacing:.08em; color:var(--wine); text-decoration:none; border-bottom:2px solid var(--wine); padding-bottom:.25rem; }
+.btn-more::after{ content:"→"; transition:transform .2s ease; }
+.btn-more:hover::after{ transform:translateX(4px); }
+.btn-more--dark{ color:#f0c4d6; border-bottom-color:#f0c4d6; }
 .hero__tag{ margin-top:2.4rem; font-family:var(--sans); font-size:.66rem; letter-spacing:.03em; color:#0a0a0a; background:var(--wine-bright); display:inline-block; padding:.5rem .7rem; }
 
 /* Sobre mi badges */
@@ -103,6 +107,19 @@ p.body-text{ font-size:1.05rem; line-height:1.65; max-width:58ch; margin:0 0 1re
 .skill-card li{ padding-left:1rem; position:relative; }
 .skill-card li::before{ content:"—"; position:absolute; left:0; color:var(--wine); }
 
+/* idiomas */
+.idiomas{
+  margin-top:1.8rem; padding-top:1.4rem; border-top:1px solid var(--line);
+  display:flex; flex-wrap:wrap; align-items:center; gap:.7rem 1.4rem;
+  font-family:var(--sans);
+}
+.idiomas__label{
+  font-size:.7rem; letter-spacing:.14em; color:var(--wine);
+  font-weight:500; text-transform:uppercase;
+}
+.idiomas__item{ font-size:.82rem; letter-spacing:.03em; color:#4a4447; }
+.idiomas__item strong{ font-weight:600; color:var(--ink); }
+
 /* project cards */
 .projects{ display:grid; gap:1.6rem; grid-template-columns:1fr; margin-top:2.2rem; }
 @media(min-width:720px){ .projects{ grid-template-columns:1fr 1fr; } }
@@ -113,10 +130,6 @@ p.body-text{ font-size:1.05rem; line-height:1.65; max-width:58ch; margin:0 0 1re
 .project-card__desc{ font-family:var(--sans); font-size:.82rem; line-height:1.6; color:#b9b0b4; padding:.8rem 1.3rem 1.3rem; flex:1; }
 .project-card__link{ font-family:var(--sans); font-size:.72rem; letter-spacing:.06em; color:var(--wine-bright); padding:0 1.3rem 1.3rem; }
 .project-card__link::after{ content:" →"; }
-.project-card--cv{ background:var(--cream); color:var(--ink); border:1px solid var(--line); }
-.project-card--cv .project-card__tag{ color:var(--wine); }
-.project-card--cv .project-card__desc{ color:#4a4447; }
-.project-card--cv:hover{ border-color:var(--wine); }
 
 /* education */
 .edu-grid{ display:grid; gap:1.6rem 2rem; grid-template-columns:1fr; margin-top:2.2rem; }
@@ -141,7 +154,7 @@ p.body-text{ font-size:1.05rem; line-height:1.65; max-width:58ch; margin:0 0 1re
   <span class="nav__logo">Sandoval<span style="color:var(--wine)">·</span>José</span>
   <div class="nav__links">
     <a href="sobre-mi.html">Sobre mí</a>
-    <a href="#proyectos">Proyectos</a>
+    <a href="proyectos.html">Proyectos</a>
     <a href="#contacto">Contacto</a>
   </div>
 </nav>
@@ -183,7 +196,7 @@ p.body-text{ font-size:1.05rem; line-height:1.65; max-width:58ch; margin:0 0 1re
     <p class="eyebrow reveal">Sobre mí</p>
     <h2 class="section-title reveal reveal-d1">Comunicador social, maestrando en investigación</h2>
     <p class="lede reveal reveal-d2">Graduado en Ciencias de la Comunicación (UBA), con experiencia en
-      <span class="mark mark--wine">análisis de audiencias</span>, campañas digitales y gestión de contenidos.</p>
+      análisis de audiencias, campañas digitales y gestión de contenidos.</p>
     <p class="body-text reveal reveal-d2">Actualmente curso la Maestría en Investigación en Ciencias Sociales
       (UBA) y participo en proyectos de investigación nacionales e internacionales sobre audiencias y prácticas
       informacionales. Busco aplicar ese cruce entre comunicación y datos en un entorno profesional que aporte a
@@ -193,6 +206,7 @@ p.body-text{ font-size:1.05rem; line-height:1.65; max-width:58ch; margin:0 0 1re
       <span class="badge">Investigador — CNPq &amp; UBACyT</span>
       <span class="badge">Análisis cuanti-cualitativo</span>
     </div>
+    <a class="btn-more reveal reveal-d3" href="sobre-mi.html">VER MÁS</a>
   </div>
 </section>
 
@@ -204,21 +218,21 @@ p.body-text{ font-size:1.05rem; line-height:1.65; max-width:58ch; margin:0 0 1re
       comunicación</h2>
     <div class="skills-grid reveal reveal-d2">
       <div class="skill-card">
-        <h3>Análisis de datos</h3>
+        <h3>Investigación</h3>
         <ul>
-          <li>Power BI — ETL, modelado, DAX</li>
-          <li>Excel — tablas dinámicas, dashboards</li>
-          <li>SPSS — análisis estadístico</li>
-          <li>Python | R — exploración y visualización</li>
+          <li>Análisis cualitativo y cuantitativo</li>
+          <li>Encuestas, focus groups, entrevistas</li>
+          <li>Sistematización e informes</li>
         </ul>
       </div>
       <div class="skill-card">
-        <h3>Investigación</h3>
+        <h3>Análisis de datos</h3>
         <ul>
-          <li>Atlas.ti — codificación cualitativa</li>
-          <li>Encuestas, focus groups, entrevistas</li>
-          <li>Diseño de instrumentos de medición</li>
-          <li>Sistematización e informes</li>
+          <li>Power BI</li>
+          <li>Excel</li>
+          <li>SPSS | Stata</li>
+          <li>Python | R</li>
+          <li>Atlas.ti</li>
         </ul>
       </div>
       <div class="skill-card">
@@ -227,9 +241,15 @@ p.body-text{ font-size:1.05rem; line-height:1.65; max-width:58ch; margin:0 0 1re
           <li>Meta Ads | Metricool</li>
           <li>Word | PowerPoint</li>
           <li>Photoshop | Illustrator | Canva</li>
-          <li>Inglés — lectocomprensión intermedia</li>
         </ul>
       </div>
+    </div>
+
+    <div class="idiomas reveal reveal-d3">
+      <span class="idiomas__label">Idiomas</span>
+      <span class="idiomas__item"><strong>Español</strong> — nativo</span>
+      <span class="idiomas__item"><strong>Inglés</strong> — lectocomprensión intermedia</span>
+      <span class="idiomas__item"><strong>Portugués</strong> — lectocomprensión intermedia</span>
     </div>
   </div>
 </section>
@@ -260,6 +280,7 @@ p.body-text{ font-size:1.05rem; line-height:1.65; max-width:58ch; margin:0 0 1re
         <span class="project-card__link">Ver reporte interactivo</span>
       </a>
     </div>
+    <a class="btn-more btn-more--dark reveal reveal-d3" href="proyectos.html">VER TODOS LOS PROYECTOS</a>
   </div>
 </section>
 
