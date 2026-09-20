@@ -24,20 +24,15 @@
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth; scroll-padding-top:70px;}
 body{
-  margin:0; font-family:var(--serif); background:#0a0a0a; color:#f4f0f1;
+  margin:0; font-family:var(--serif); background:var(--cream); color:var(--ink);
   padding-bottom:env(safe-area-inset-bottom,0px); -webkit-font-smoothing:antialiased;
 }
 ::selection{ background:var(--wine); color:#fff; }
 a{ color:inherit; }
-
-.section{ position:relative; padding:5.5rem 1.5rem; overflow:hidden; }
-.section--dark{ background:#0a0a0a; color:#f4f0f1; }
-.section--wine{ background:linear-gradient(155deg, var(--wine-deep), var(--wine)); color:#fbeef2; }
-.frame{ max-width:760px; margin:0 auto; }
-.frame--wide{ max-width:1000px; margin:0 auto; }
+img,svg{max-width:100%;}
 
 .nav{
-  position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92); backdrop-filter:blur(6px);
+  position:sticky; top:0; z-index:50; background:rgba(246,239,241,.92); backdrop-filter:blur(6px);
   border-bottom:1px solid var(--line);
   display:flex; align-items:center; justify-content:space-between;
   padding:1rem 1.5rem; padding-top:calc(1rem + env(safe-area-inset-top,0px));
@@ -47,40 +42,55 @@ a{ color:inherit; }
 .nav__links a{ text-decoration:none; color:var(--ink); border-bottom:2px solid transparent; padding-bottom:.2rem; }
 .nav__links a:hover{ border-color:var(--wine); }
 
-.contact-links{ display:flex; flex-wrap:wrap; gap:1.2rem; margin-top:2rem; }
-.contact-pill{ display:inline-flex; align-items:center; gap:.6rem; font-family:var(--sans); font-size:.82rem; letter-spacing:.03em; color:#fff; background:rgba(255,255,255,.12); padding:.85rem 1.3rem; text-decoration:none; border:1px solid rgba(255,255,255,.25); }
-.contact-pill:hover{ background:rgba(255,255,255,.2); }
+.section{ position:relative; padding:5.5rem 1.5rem; overflow:hidden; }
+.section--cream{ background:var(--cream); color:var(--ink); }
+.section--wine{ background:linear-gradient(155deg, var(--wine-deep), var(--wine)); color:#fbeef2; }
+.frame{ max-width:760px; margin:0 auto; }
+.frame--wide{ max-width:1000px; margin:0 auto; }
 
 .eyebrow{
   font-family:var(--sans); font-size:.7rem; letter-spacing:.14em; font-weight:500;
-  color:#e6b9cc; margin:0 0 1.2rem; text-transform:uppercase;
+  color:var(--wine); margin:0 0 1.2rem; text-transform:uppercase;
 }
+.section--wine .eyebrow{ color:#f0c4d6; }
 
-/* Título — mismo modo que .section-title del HTML original */
+/* HERO — dark con burbujas */
+.hero{
+  position:relative; min-height:60svh; background:#0a0a0a; color:#fff;
+  display:flex; align-items:center; padding:7rem 1.5rem 4rem; overflow:hidden;
+}
+.hero__bg{ position:absolute; inset:0; z-index:0; }
+.hero__content{ position:relative; z-index:2; max-width:900px; margin:0 auto; width:100%; }
+.hero__kicker{ font-family:var(--sans); font-size:.72rem; letter-spacing:.15em; color:#cbb9c2; margin-bottom:1.2rem; }
+.hero-title{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:clamp(2.4rem, 7vw, 4.2rem); line-height:1.08;
+  margin:0 0 1.4rem; max-width:13ch; color:#fff;
+}
+.hero-title .hi{ background:#fff; color:#000; padding:0 .2rem; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+.hero__subtitle{ font-family:var(--sans); font-size:1rem; color:#e7dbe0; max-width:48ch; line-height:1.6; margin:0; }
+
+/* Título de sección */
 h2.section-title{
   font-family:var(--serif); font-style:italic; font-weight:500;
-  font-size:clamp(2.2rem, 6vw, 3.6rem); line-height:1.1;
-  margin:0 0 2.8rem; max-width:18ch; color:#fff;
+  font-size:clamp(1.7rem, 3.6vw, 2.4rem); line-height:1.12;
+  margin:0 0 1.3rem; max-width:20ch; color:var(--ink);
 }
+p.body-text{ font-size:1.05rem; line-height:1.65; max-width:58ch; margin:0 0 1.3rem; color:#3a3436; }
 
-.section-title .hi{ background:#fff; color:#000; padding:0 .2rem; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
-
-p.body-text{
-  font-size:1.05rem; line-height:1.65; max-width:58ch;
-  margin:0 0 2.4rem; color:#cfc6ca;
-}
-
-/* PROYECTOS — mismas tarjetas del HTML original, apiladas verticalmente */
-.projects{
-  display:grid; gap:1.6rem; grid-template-columns:1fr; margin-top:.5rem;
-}
+/* PROYECTOS */
+.projects{ display:grid; gap:1.6rem; grid-template-columns:1fr; margin-top:.5rem; }
 .project-card{
   display:flex; flex-direction:column;
   background:#141414; border:1px solid #262626;
   text-decoration:none; color:#f4f0f1;
-  transition:border-color .25s ease, transform .25s ease;
+  transition:border-color .25s ease, transform .25s ease, box-shadow .25s ease;
 }
-.project-card:hover{ border-color:var(--wine-bright); transform:translateY(-3px); }
+.project-card:hover{
+  border-color:var(--wine-bright);
+  transform:translateY(-3px);
+  box-shadow:0 14px 34px -14px rgba(74,16,48,.45);
+}
 .project-card__tag{
   font-family:var(--sans); font-size:.66rem; letter-spacing:.1em;
   color:#e6b9cc; padding:1.4rem 1.5rem 0;
@@ -102,6 +112,11 @@ p.body-text{
 .project-card__link::after{ content:" →"; }
 .project-card:hover .project-card__link{ color:#fff; }
 
+/* contact */
+.contact-links{ display:flex; flex-wrap:wrap; gap:1.2rem; margin-top:2rem; }
+.contact-pill{ display:inline-flex; align-items:center; gap:.6rem; font-family:var(--sans); font-size:.82rem; letter-spacing:.03em; color:#fff; background:rgba(255,255,255,.12); padding:.85rem 1.3rem; text-decoration:none; border:1px solid rgba(255,255,255,.25); }
+.contact-pill:hover{ background:rgba(255,255,255,.2); }
+
 /* ANIMACIONES */
 .reveal{ opacity:0; transform:translateY(20px); transition:opacity .7s ease, transform .7s ease; }
 .reveal.in{ opacity:1; transform:none; }
@@ -113,7 +128,7 @@ p.body-text{
 }
 
 .footer{
-  background:#050505; color:#8f8a8d; text-align:center;
+  background:#0a0a0a; color:#8f8a8d; text-align:center;
   padding:2.4rem 1.5rem; font-family:var(--sans); font-size:.7rem; letter-spacing:.08em;
 }
 
@@ -131,15 +146,38 @@ p.body-text{
   </div>
 </nav>
 
-<section class="section section--dark">
+<!-- HERO -->
+<header class="hero">
+  <div class="hero__bg" aria-hidden="true">
+    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMaxYMid slice" style="width:100%;height:100%;">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#8f2f63"/><stop offset="1" stop-color="#3c0f28"/>
+        </linearGradient>
+        <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#a83a70"/><stop offset="1" stop-color="#4a1330"/>
+        </linearGradient>
+      </defs>
+      <g opacity="0.85">
+        <circle cx="1080" cy="80" r="120" fill="url(#g1)"/>
+        <circle cx="1160" cy="280" r="140" fill="url(#g2)"/>
+        <circle cx="1050" cy="470" r="130" fill="url(#g1)"/>
+        <circle cx="1170" cy="650" r="140" fill="url(#g2)"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero__content">
+    <p class="hero__kicker">PROYECTOS</p>
+    <h1 class="hero-title">Una selección de <span class="hi">mis trabajos</span></h1>
+    <p class="hero__subtitle">Investigaciones sobre audiencias, algoritmos y prácticas mediáticas.</p>
+  </div>
+</header>
+
+<!-- PROYECTOS -->
+<section class="section section--cream">
   <div class="frame">
 
-    <p class="eyebrow reveal">José Mario Sandoval — Comunicación + Datos</p>
-    <h2 class="section-title reveal reveal-d1"><span class="hi">Proyectos</span></h2>
-    <p class="body-text reveal reveal-d2">
-      Una selección de investigaciones sobre audiencias, prácticas noticiosas y algoritmos
-      en estudiantes de Comunicación (UBA).
-    </p>
+    <p class="eyebrow reveal">Selección</p>
 
     <div class="projects reveal reveal-d2">
 
@@ -189,7 +227,7 @@ p.body-text{
 <!-- CONTACTO -->
 <section class="section section--wine" id="contacto">
   <div class="frame">
-    <p class="eyebrow reveal" style="color:#f0c4d6;">¿Hablamos?</p>
+    <p class="eyebrow reveal">¿Hablamos?</p>
     <h2 class="section-title reveal reveal-d1" style="color:#fff; font-size:clamp(1.9rem,5vw,2.8rem);">¡Gracias por
       tu visita!</h2>
     <p class="body-text reveal reveal-d2" style="color:#fbeef2;">Si querés conversar sobre una oportunidad, un
@@ -213,4 +251,5 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 
 </body>
+</html>
 </html>
