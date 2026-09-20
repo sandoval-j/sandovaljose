@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sobre mí — José Mario Sandoval</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#161213;
+  --paper:#ffffff;
+  --wine:#7d1f49;
+  --wine-deep:#4a1030;
+  --wine-bright:#a12a5e;
+  --rose:#a13853;
+  --teal:#3e6f64;
+  --teal-bright:#4f8a7d;
+  --grey:#8f8a8d;
+  --line:#e7dfe2;
+  --cream:#f6eff1;
+  --serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --sans: 'Oswald', 'Arial Narrow', Arial, sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; font-family:var(--serif); background:var(--paper); color:var(--ink);
+  padding-bottom:env(safe-area-inset-bottom,0px); -webkit-font-smoothing:antialiased;
+}
+::selection{ background:var(--wine); color:#fff; }
+img,svg{max-width:100%;}
+
+.section{ position:relative; padding:5.5rem 1.5rem; overflow:hidden; }
+.section--dark{ background:#0a0a0a; color:#f4f0f1; }
+.section--light{ background:var(--paper); color:var(--ink); }
+.section--wine{ background:linear-gradient(155deg, var(--wine-deep), var(--wine)); color:#fbeef2; }
+.section--light + .section--light{ border-top:1px solid var(--line); }
+
+.frame{ max-width:700px; margin:0 auto; }
+.frame--wide{ max-width:960px; margin:0 auto; }
+
+.eyebrow{ font-family:var(--sans); font-size:.7rem; letter-spacing:.14em; font-weight:500; color:var(--wine); margin:0 0 1.2rem; }
+.section--dark .eyebrow{ color:#e6b9cc; }
+.section--wine .eyebrow{ color:#f0c4d6; }
+
+h1.hero-title, h2.section-title{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  line-height:1.12; margin:0 0 1.3rem;
+}
+h1.hero-title{ font-size:clamp(2.4rem, 7vw, 4.2rem); max-width:12ch; }
+h2.section-title{ font-size:clamp(1.7rem, 3.6vw, 2.4rem); max-width:20ch; }
+
+p.lede{ font-size:clamp(1.1rem, 2vw, 1.32rem); line-height:1.55; max-width:60ch; margin:0 0 1.2rem; }
+p.body-text{ font-size:1.1rem; line-height:1.7; max-width:58ch; margin:0 0 1.3rem; color:#3a3436; }
+.section--dark p.body-text{ color:#cfc6ca; }
+
+.mark{ background:var(--ink); color:#fff; padding:.05em .28em; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+.mark--wine{ background:var(--wine); color:#fff; }
+.mark--teal{ background:var(--teal); color:#fff; }
+
+.reveal{ opacity:0; transform:translateY(20px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity:1; transform:none; }
+.reveal-d1{ transition-delay:.08s; } .reveal-d2{ transition-delay:.18s; } .reveal-d3{ transition-delay:.28s; } .reveal-d4{ transition-delay:.38s; }
+@media (prefers-reduced-motion: reduce){ .reveal{ opacity:1; transform:none; transition:none; } html{ scroll-behavior:auto; } }
+
+/* HERO */
+.hero{ position:relative; min-height:60svh; background:#0a0a0a; color:#fff; display:flex; align-items:center; padding:7rem 1.5rem 4rem; overflow:hidden; }
+.hero__bg{ position:absolute; inset:0; z-index:0; }
+.hero__content{ position:relative; z-index:2; max-width:900px; margin:0 auto; width:100%; }
+.hero__kicker{ font-family:var(--sans); font-size:.72rem; letter-spacing:.15em; color:#cbb9c2; margin-bottom:1.2rem; }
+.hero-title .hi{ background:#fff; color:#000; padding:0 .2rem; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+.hero__subtitle{ font-family:var(--sans); font-size:1rem; color:#e7dbe0; max-width:46ch; line-height:1.6; margin:0; }
+
+/* timeline-ish badges */
+.badges{ display:flex; flex-wrap:wrap; gap:.9rem; margin-top:.4rem 0 2rem; }
+.badge{ font-family:var(--sans); font-size:.72rem; letter-spacing:.04em; padding:.55rem .95rem; border:1px solid var(--line); color:#4a4447; }
+.section--dark .badge{ border-color:#333; color:#cfc6ca; }
+
+/* pull quote */
+.pull{ border-left:3px solid var(--wine-bright); padding-left:1.2rem; font-style:italic; font-size:1.3rem; line-height:1.5; margin:2rem 0; max-width:52ch; }
+.section--light .pull{ color:var(--ink); }
+.section--dark .pull{ color:#f1e9ec; }
+
+/* tools grid */
+.tools{ display:flex; flex-wrap:wrap; gap:.7rem; margin-top:1.8rem; }
+.tool-pill{ font-family:var(--sans); font-size:.76rem; letter-spacing:.03em; padding:.6rem 1.1rem; background:var(--cream); color:var(--ink); border-top:2px solid var(--wine); }
+
+/* project inline card */
+.mini-card{ margin-top:2.2rem; padding:1.3rem 1.4rem; background:#141414; border-left:3px solid var(--wine-bright); }
+.mini-card--teal{ border-left-color:var(--teal-bright); }
+.mini-card--teal .mini-card__tag{ color:var(--teal-bright); }
+.mini-card__tag{ font-family:var(--sans); font-size:.66rem; letter-spacing:.1em; color:#e6b9cc; }
+.mini-card__title{ font-family:var(--serif); font-style:italic; font-weight:600; font-size:1.3rem; color:#fff; margin:.4rem 0 .6rem; }
+.mini-card__desc{ font-family:var(--sans); font-size:.82rem; line-height:1.6; color:#b9b0b4; margin:0; }
+
+/* contact */
+.contact-links{ display:flex; flex-wrap:wrap; gap:1.2rem; margin-top:2rem; }
+.contact-pill{ display:inline-flex; align-items:center; gap:.6rem; font-family:var(--sans); font-size:.82rem; letter-spacing:.03em; color:#fff; background:rgba(255,255,255,.12); padding:.85rem 1.3rem; text-decoration:none; border:1px solid rgba(255,255,255,.25); }
+.contact-pill:hover{ background:rgba(255,255,255,.2); }
+
+.footer{ background:#0a0a0a; color:#8f8a8d; text-align:center; padding:2.2rem 1.5rem; font-family:var(--sans); font-size:.68rem; letter-spacing:.08em; }
+
+@media(max-width:640px){ .section{ padding:4rem 1.2rem; } }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero__bg" aria-hidden="true">
+    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMaxYMid slice" style="width:100%;height:100%;">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#8f2f63"/><stop offset="1" stop-color="#3c0f28"/>
+        </linearGradient>
+        <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#a83a70"/><stop offset="1" stop-color="#4a1330"/>
+        </linearGradient>
+      </defs>
+      <g opacity="0.85">
+        <circle cx="1080" cy="80" r="120" fill="url(#g1)"/>
+        <circle cx="1160" cy="280" r="140" fill="url(#g2)"/>
+        <circle cx="1050" cy="470" r="130" fill="url(#g1)"/>
+        <circle cx="1170" cy="650" r="140" fill="url(#g2)"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero__content">
+    <p class="hero__kicker">SOBRE MÍ</p>
+    <h1 class="hero-title">Entre la <span class="hi">comunicación</span> y los datos</h1>
+    <p class="hero__subtitle">Maestrando en Investigación en Ciencias Sociales (UBA) y Comunicador Social (UBA),
+      especializado en análisis de audiencias.</p>
+  </div>
+</header>
+
+<!-- TRAYECTORIA -->
+<section class="section section--light" id="trayectoria">
+  <div class="frame">
+    <p class="eyebrow reveal">Cómo llegué acá</p>
+    <p class="lede reveal reveal-d1">Mi trayectoria comenzó en el diseño de campañas digitales y community
+      management, donde aprendí a leer métricas para identificar
+      patrones de comportamiento y ajustar estrategias de contenido.</p>
+    <p class="body-text reveal reveal-d2">Ese interés por los datos fue lo que me llevó hacia la investigación
+      académica.</p>
+  </div>
+</section>
+
+<!-- INVESTIGACIÓN ACTUAL -->
+<section class="section section--dark" id="investigacion">
+  <div class="frame frame--wide">
+    <p class="eyebrow reveal">Dónde estoy ahora</p>
+    <h2 class="section-title reveal reveal-d1" style="color:#fff;">Investigación en audiencias, con métodos
+      cuanti-cualitativos</h2>
+    <p class="body-text reveal reveal-d2">Actualmente participo en el grupo de estudios
+      <span class="mark">"Comunicación, Cultura y Violencias"</span> (IIGG-UBA), donde aplico técnicas de
+      recolección de datos cuanti-cualitativas. He trabajado con encuestas, focus groups, entrevistas en
+      profundidad y observaciones.</p>
+
+    <div class="mini-card mini-card--teal reveal reveal-d3">
+      <p class="mini-card__tag">PROYECTO NACIONAL — UBACYT</p>
+      <p class="mini-card__title">La cobertura policial algorítmica</p>
+      <p class="mini-card__desc">Producción periodística y prácticas informativas de las audiencias en la era
+        digital. Estudio el cruce entre las lógicas algorítmicas de las plataformas y cómo las audiencias
+        producen sentido en torno a la cobertura policial.</p>
+    </div>
+
+    <div class="mini-card reveal reveal-d3">
+      <p class="mini-card__tag">PROYECTO INTERNACIONAL — CNPQ</p>
+      <p class="mini-card__title">As práticas informacionais dos públicos locais</p>
+      <p class="mini-card__desc">Una comparación entre Argentina, Brasil, Canadá y Francia. Participo integrando
+        los resultados del caso argentino al marco comparado internacional.</p>
+    </div>
+
+    <p class="body-text reveal reveal-d3" style="margin-top:2.2rem;">Además, fui ayudante adscripto en la materia
+      Audiencias y Recepción, acompañando el diseño y análisis de estudios sobre recepción de contenidos
+      mediáticos.</p>
+
+    <p class="eyebrow reveal reveal-d4" style="margin-top:2rem;">Herramientas que uso</p>
+    <div class="tools reveal reveal-d4">
+      <span class="tool-pill">Power BI</span>
+      <span class="tool-pill">Excel</span>
+      <span class="tool-pill">Python</span>
+      <span class="tool-pill">R</span>
+      <span class="tool-pill">Atlas.ti</span>
+    </div>
+  </div>
+</section>
+
+<!-- CIERRE / SENSIBILIDAD ANALÍTICA -->
+<section class="section section--light" id="cierre">
+  <div class="frame">
+    <p class="eyebrow reveal">Lo que me define</p>
+    <div class="pull reveal reveal-d1">La integración de metodologías cualitativas y cuantitativas me permitió
+      desarrollar una sensibilidad analítica crítica y contextual — no sólo describir los datos, sino también
+      abordar y comprender lo que significan.</div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="section section--wine" id="contacto">
+  <div class="frame">
+    <p class="eyebrow reveal">¿Hablamos?</p>
+    <h2 class="section-title reveal reveal-d1" style="color:#fff;">Sigamos la conversación</h2>
+    <div class="contact-links reveal reveal-d2">
+      <a class="contact-pill" href="mailto:sandovaljosemario9@gmail.com">✉ sandovaljosemario9@gmail.com</a>
+      <a class="contact-pill" href="#" target="_blank" rel="noopener">in LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">JOSÉ MARIO SANDOVAL · SOBRE MÍ</footer>
+
+<script>
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold:0.16 });
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
