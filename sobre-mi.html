@@ -29,6 +29,16 @@ body{
   margin:0; font-family:var(--serif); background:var(--paper); color:var(--ink);
   padding-bottom:env(safe-area-inset-bottom,0px); -webkit-font-smoothing:antialiased;
 }
+.nav{
+  position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92); backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:1rem 1.5rem; padding-top:calc(1rem + env(safe-area-inset-top,0px));
+}
+.nav__logo{ font-family:var(--serif); font-style:italic; font-weight:600; font-size:1.2rem; text-decoration:none; color:var(--ink); }
+.nav__links{ display:flex; gap:1.6rem; font-family:var(--sans); font-size:.72rem; letter-spacing:.08em; }
+.nav__links a{ text-decoration:none; color:var(--ink); border-bottom:2px solid transparent; padding-bottom:.2rem; }
+.nav__links a:hover{ border-color:var(--wine); }
 ::selection{ background:var(--wine); color:#fff; }
 img,svg{max-width:100%;}
 
@@ -107,6 +117,15 @@ p.body-text{ font-size:1.1rem; line-height:1.7; max-width:58ch; margin:0 0 1.3re
 </head>
 <body>
 
+<nav class="nav">
+  <a class="nav__logo" href="portafolio.html">Sandoval<span style="color:var(--wine)">·</span>José</a>
+  <div class="nav__links">
+    <a href="sobre-mi.html">Sobre mí</a>
+    <a href="proyectos.html">Proyectos</a>
+    <a href="portafolio.html#contacto">Contacto</a>
+  </div>
+</nav>
+
 <!-- HERO -->
 <header class="hero">
   <div class="hero__bg" aria-hidden="true">
@@ -140,8 +159,8 @@ p.body-text{ font-size:1.1rem; line-height:1.7; max-width:58ch; margin:0 0 1.3re
   <div class="frame">
     <p class="eyebrow reveal">Cómo llegué acá</p>
     <p class="lede reveal reveal-d1">Mi trayectoria comenzó en el diseño de campañas digitales y community
-      management, donde aprendí a leer métricas para identificar
-      patrones de comportamiento y ajustar estrategias de contenido.</p>
+      management, donde aprendí a leer métricas para identificar patrones de comportamiento y ajustar
+      estrategias de contenido.</p>
     <p class="body-text reveal reveal-d2">Ese interés por los datos fue lo que me llevó hacia la investigación
       académica.</p>
   </div>
@@ -159,7 +178,7 @@ p.body-text{ font-size:1.1rem; line-height:1.7; max-width:58ch; margin:0 0 1.3re
       profundidad y observaciones.</p>
 
     <div class="mini-card mini-card--teal reveal reveal-d3">
-      <p class="mini-card__tag">PROYECTO NACIONAL — UBACYT</p>
+      <p class="mini-card__tag">PROYECTO UBACYT</p>
       <p class="mini-card__title">La cobertura policial algorítmica</p>
       <p class="mini-card__desc">Producción periodística y prácticas informativas de las audiencias en la era
         digital. Estudio el cruce entre las lógicas algorítmicas de las plataformas y cómo las audiencias
@@ -170,7 +189,7 @@ p.body-text{ font-size:1.1rem; line-height:1.7; max-width:58ch; margin:0 0 1.3re
       <p class="mini-card__tag">PROYECTO INTERNACIONAL — CNPQ</p>
       <p class="mini-card__title">As práticas informacionais dos públicos locais</p>
       <p class="mini-card__desc">Una comparación entre Argentina, Brasil, Canadá y Francia. Participo integrando
-        los resultados del caso argentino al marco comparado internacional.</p>
+        los resultados del caso argentino —obtenidos en el proyecto anterior— al marco comparado internacional.</p>
     </div>
 
     <p class="body-text reveal reveal-d3" style="margin-top:2.2rem;">Además, fui ayudante adscripto en la materia
@@ -183,6 +202,8 @@ p.body-text{ font-size:1.1rem; line-height:1.7; max-width:58ch; margin:0 0 1.3re
       <span class="tool-pill">Excel</span>
       <span class="tool-pill">Python</span>
       <span class="tool-pill">R</span>
+      <span class="tool-pill">SPSS</span>
+      <span class="tool-pill">Stata</span>
       <span class="tool-pill">Atlas.ti</span>
     </div>
   </div>
