@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>José Mario Sandoval — Portafolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#161213;
+  --paper:#ffffff;
+  --wine:#7d1f49;
+  --wine-deep:#4a1030;
+  --wine-bright:#a12a5e;
+  --rose:#a13853;
+  --teal:#3e6f64;
+  --teal-bright:#4f8a7d;
+  --grey:#8f8a8d;
+  --line:#e7dfe2;
+  --cream:#f6eff1;
+  --serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --sans: 'Oswald', 'Arial Narrow', Arial, sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth; scroll-padding-top:70px;}
+body{
+  margin:0; font-family:var(--serif); background:var(--paper); color:var(--ink);
+  padding-bottom:env(safe-area-inset-bottom,0px); -webkit-font-smoothing:antialiased;
+}
+::selection{ background:var(--wine); color:#fff; }
+img,svg{max-width:100%;}
+a{ color:inherit; }
+
+/* NAV — remove this block if embedding as a Wix section */
+.nav{
+  position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92); backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:1rem 1.5rem; padding-top:calc(1rem + env(safe-area-inset-top,0px));
+}
+.nav__logo{ font-family:var(--serif); font-style:italic; font-weight:600; font-size:1.2rem; }
+.nav__links{ display:flex; gap:1.6rem; font-family:var(--sans); font-size:.72rem; letter-spacing:.08em; }
+.nav__links a{ text-decoration:none; color:var(--ink); border-bottom:2px solid transparent; padding-bottom:.2rem; }
+.nav__links a:hover{ border-color:var(--wine); }
+
+.section{ position:relative; padding:5.5rem 1.5rem; overflow:hidden; }
+.section--dark{ background:#0a0a0a; color:#f4f0f1; }
+.section--light{ background:var(--paper); color:var(--ink); }
+.section--wine{ background:linear-gradient(155deg, var(--wine-deep), var(--wine)); color:#fbeef2; }
+.section--light + .section--light{ border-top:1px solid var(--line); }
+
+.frame{ max-width:760px; margin:0 auto; }
+.frame--wide{ max-width:1000px; margin:0 auto; }
+
+.eyebrow{ font-family:var(--sans); font-size:.7rem; letter-spacing:.14em; font-weight:500; color:var(--wine); margin:0 0 1.2rem; }
+.section--dark .eyebrow{ color:#e6b9cc; }
+.section--wine .eyebrow{ color:#f0c4d6; }
+
+h2.section-title{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:clamp(1.8rem, 4.2vw, 2.8rem); line-height:1.15; margin:0 0 1.4rem; max-width:18ch;
+}
+
+p.lede{ font-size:clamp(1.1rem, 2vw, 1.32rem); line-height:1.55; max-width:60ch; margin:0 0 1.2rem; }
+p.body-text{ font-size:1.05rem; line-height:1.65; max-width:58ch; margin:0 0 1rem; color:#3a3436; }
+.section--dark p.body-text{ color:#cfc6ca; }
+
+.mark{ background:var(--ink); color:#fff; padding:.05em .28em; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+.mark--wine{ background:var(--wine); color:#fff; }
+
+.reveal{ opacity:0; transform:translateY(20px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity:1; transform:none; }
+.reveal-d1{ transition-delay:.08s; } .reveal-d2{ transition-delay:.18s; } .reveal-d3{ transition-delay:.28s; }
+@media (prefers-reduced-motion: reduce){ .reveal{ opacity:1; transform:none; transition:none; } html{ scroll-behavior:auto; } }
+
+/* HERO */
+.hero{
+  position:relative; min-height:88svh; background:#0a0a0a; color:#fff;
+  display:flex; align-items:center; padding:6rem 1.5rem 4rem; overflow:hidden;
+}
+.hero__bg{ position:absolute; inset:0; z-index:0; }
+.hero__content{ position:relative; z-index:2; max-width:1000px; margin:0 auto; width:100%; }
+.hero__kicker{ font-family:var(--sans); font-size:.72rem; letter-spacing:.15em; color:#cbb9c2; margin-bottom:1.2rem; }
+.hero__title{ font-family:var(--serif); font-style:italic; font-weight:500; font-size:clamp(2.6rem,7.5vw,4.8rem); line-height:1.05; margin:0 0 1.2rem; max-width:11ch; }
+.hero__title .hi{ background:#fff; color:#000; padding:0 .2rem; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+.hero__subtitle{ font-family:var(--sans); font-size:1rem; color:#e7dbe0; max-width:42ch; line-height:1.6; margin:0 0 2.2rem; }
+.hero__cta{ display:inline-flex; align-items:center; gap:.6rem; font-family:var(--sans); font-size:.78rem; letter-spacing:.08em; color:#0a0a0a; background:var(--wine-bright); padding:.9rem 1.5rem; text-decoration:none; }
+.hero__cta:hover{ background:#fff; }
+.hero__tag{ margin-top:2.4rem; font-family:var(--sans); font-size:.66rem; letter-spacing:.03em; color:#0a0a0a; background:var(--wine-bright); display:inline-block; padding:.5rem .7rem; }
+
+/* Sobre mi badges */
+.badges{ display:flex; flex-wrap:wrap; gap:.9rem; margin-top:1.8rem; }
+.badge{ font-family:var(--sans); font-size:.72rem; letter-spacing:.04em; padding:.55rem .95rem; border:1px solid var(--line); color:#4a4447; }
+
+/* skills grid */
+.skills-grid{ display:grid; gap:1.4rem; grid-template-columns:1fr; margin-top:2.2rem; }
+@media(min-width:720px){ .skills-grid{ grid-template-columns:repeat(3,1fr); } }
+.skill-card{ background:var(--cream); border-top:3px solid var(--wine); padding:1.4rem 1.3rem; }
+.skill-card h3{ font-family:var(--serif); font-style:italic; font-weight:600; font-size:1.25rem; margin:0 0 .9rem; color:var(--ink); }
+.skill-card ul{ margin:0; padding:0; list-style:none; font-family:var(--sans); font-size:.82rem; line-height:1.8; color:#4a4447; }
+.skill-card li{ padding-left:1rem; position:relative; }
+.skill-card li::before{ content:"—"; position:absolute; left:0; color:var(--wine); }
+
+/* project cards */
+.projects{ display:grid; gap:1.6rem; grid-template-columns:1fr; margin-top:2.2rem; }
+@media(min-width:720px){ .projects{ grid-template-columns:1fr 1fr; } }
+.project-card{ display:flex; flex-direction:column; background:#141414; border:1px solid #262626; text-decoration:none; color:#f4f0f1; transition:border-color .25s ease, transform .25s ease; }
+.project-card:hover{ border-color:var(--wine-bright); transform:translateY(-3px); }
+.project-card__tag{ font-family:var(--sans); font-size:.66rem; letter-spacing:.1em; color:#e6b9cc; padding:1.2rem 1.3rem 0; }
+.project-card__title{ font-family:var(--serif); font-style:italic; font-weight:600; font-size:1.45rem; padding:.5rem 1.3rem 0; line-height:1.25; }
+.project-card__desc{ font-family:var(--sans); font-size:.82rem; line-height:1.6; color:#b9b0b4; padding:.8rem 1.3rem 1.3rem; flex:1; }
+.project-card__link{ font-family:var(--sans); font-size:.72rem; letter-spacing:.06em; color:var(--wine-bright); padding:0 1.3rem 1.3rem; }
+.project-card__link::after{ content:" →"; }
+.project-card--cv{ background:var(--cream); color:var(--ink); border:1px solid var(--line); }
+.project-card--cv .project-card__tag{ color:var(--wine); }
+.project-card--cv .project-card__desc{ color:#4a4447; }
+.project-card--cv:hover{ border-color:var(--wine); }
+
+/* education */
+.edu-grid{ display:grid; gap:1.6rem 2rem; grid-template-columns:1fr; margin-top:2.2rem; }
+@media(min-width:720px){ .edu-grid{ grid-template-columns:repeat(2,1fr); } }
+.edu-item{ border-top:2px solid var(--wine); padding-top:.8rem; }
+.edu-item h3{ font-family:var(--sans); font-size:.85rem; font-weight:600; letter-spacing:.02em; margin:0 0 .3rem; color:var(--ink); }
+.edu-item p{ font-family:var(--serif); font-style:italic; font-size:1rem; color:#5c5558; margin:0; }
+
+/* contact */
+.contact-links{ display:flex; flex-wrap:wrap; gap:1.2rem; margin-top:2rem; }
+.contact-pill{ display:inline-flex; align-items:center; gap:.6rem; font-family:var(--sans); font-size:.82rem; letter-spacing:.03em; color:#fff; background:rgba(255,255,255,.12); padding:.85rem 1.3rem; text-decoration:none; border:1px solid rgba(255,255,255,.25); }
+.contact-pill:hover{ background:rgba(255,255,255,.2); }
+
+.footer{ background:#0a0a0a; color:#8f8a8d; text-align:center; padding:2.4rem 1.5rem; font-family:var(--sans); font-size:.7rem; letter-spacing:.08em; }
+
+@media(max-width:640px){ .section{ padding:4rem 1.2rem; } }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav__logo">Sandoval<span style="color:var(--wine)">·</span>José</span>
+  <div class="nav__links">
+    <a href="#sobre-mi">Sobre mí</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero__bg" aria-hidden="true">
+    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMaxYMid slice" style="width:100%;height:100%;">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#8f2f63"/><stop offset="1" stop-color="#3c0f28"/>
+        </linearGradient>
+        <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#a83a70"/><stop offset="1" stop-color="#4a1330"/>
+        </linearGradient>
+      </defs>
+      <g opacity="0.85">
+        <circle cx="1080" cy="90" r="130" fill="url(#g1)"/>
+        <circle cx="1160" cy="300" r="150" fill="url(#g2)"/>
+        <circle cx="1050" cy="500" r="140" fill="url(#g1)"/>
+        <circle cx="1170" cy="690" r="150" fill="url(#g2)"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero__content">
+    <p class="hero__kicker">JOSÉ MARIO SANDOVAL — COMUNICACIÓN + DATOS</p>
+    <h1 class="hero__title">Datos con <span class="hi">contexto</span></h1>
+    <p class="hero__subtitle">Investigador y analista de audiencias. Combino metodologías cuanti-cualitativas con
+      herramientas de análisis de datos para transformar información en decisiones.</p>
+    <a class="hero__cta" href="#proyectos">VER PROYECTOS</a>
+    <br>
+    <span class="hero__tag">IF(comunicación &amp;&amp; datos, insight = true)</span>
+  </div>
+</header>
+
+<!-- SOBRE MI -->
+<section class="section section--light" id="sobre-mi">
+  <div class="frame">
+    <p class="eyebrow reveal">Sobre mí</p>
+    <h2 class="section-title reveal reveal-d1">Comunicador social, maestrando en investigación</h2>
+    <p class="lede reveal reveal-d2">Graduado en Ciencias de la Comunicación (UBA), con experiencia en
+      <span class="mark mark--wine">análisis de audiencias</span>, campañas digitales y gestión de contenidos.</p>
+    <p class="body-text reveal reveal-d2">Actualmente curso la Maestría en Investigación en Ciencias Sociales
+      (UBA) y participo en proyectos de investigación nacionales e internacionales sobre audiencias y prácticas
+      informacionales. Busco aplicar ese cruce entre comunicación y datos en un entorno profesional que aporte a
+      la toma de decisiones estratégicas.</p>
+    <div class="badges reveal reveal-d3">
+      <span class="badge">Maestrando en Investigación (UBA)</span>
+      <span class="badge">Investigador — CNPq &amp; UBACyT</span>
+      <span class="badge">Análisis cuanti-cualitativo</span>
+    </div>
+  </div>
+</section>
+
+<!-- HABILIDADES -->
+<section class="section section--light" id="habilidades">
+  <div class="frame frame--wide">
+    <p class="eyebrow reveal">Mis habilidades</p>
+    <h2 class="section-title reveal reveal-d1" style="max-width:22ch;">Del dato crudo al insight, y de ahí a la
+      comunicación</h2>
+    <div class="skills-grid reveal reveal-d2">
+      <div class="skill-card">
+        <h3>Análisis de datos</h3>
+        <ul>
+          <li>Power BI — ETL, modelado, DAX</li>
+          <li>Excel — tablas dinámicas, dashboards</li>
+          <li>SPSS — análisis estadístico</li>
+          <li>Python | R — exploración y visualización</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3>Investigación</h3>
+        <ul>
+          <li>Atlas.ti — codificación cualitativa</li>
+          <li>Encuestas, focus groups, entrevistas</li>
+          <li>Diseño de instrumentos de medición</li>
+          <li>Sistematización e informes</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3>Comunicación &amp; diseño</h3>
+        <ul>
+          <li>Meta Ads | Metricool</li>
+          <li>Word | PowerPoint</li>
+          <li>Photoshop | Illustrator | Canva</li>
+          <li>Inglés — lectocomprensión intermedia</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROYECTOS -->
+<section class="section section--dark" id="proyectos">
+  <div class="frame frame--wide">
+    <p class="eyebrow reveal">Proyectos destacados</p>
+    <h2 class="section-title reveal reveal-d1" style="max-width:20ch; color:#fff;">Investigación, visualizada</h2>
+    <p class="body-text reveal reveal-d2">Una selección de trabajos de investigación sobre audiencias y
+      algoritmos, presentados como reportes visuales interactivos.</p>
+
+    <div class="projects reveal reveal-d3">
+      <a class="project-card" href="https://claude.ai/artifact/CQF4vVjuVDDRQxPM3KArNE" target="_blank" rel="noopener">
+        <span class="project-card__tag">REPORTE — LOCUS DE CONTROL</span>
+        <span class="project-card__title">¿Quién tiene el control: vos o el algoritmo?</span>
+        <span class="project-card__desc">Estudio sobre cómo estudiantes de Comunicación (UBA) perciben su
+          capacidad de influir en la selección algorítmica de contenidos, y cómo esa percepción cambia con el
+          avance académico.</span>
+        <span class="project-card__link">Ver reporte interactivo</span>
+      </a>
+
+      <a class="project-card" href="https://claude.ai/artifact/PU1eZmzstch2NKLSrWdDUT" target="_blank" rel="noopener">
+        <span class="project-card__tag">PONENCIA — IIGG, 2024</span>
+        <span class="project-card__title">Una cosa no quita la otra</span>
+        <span class="project-card__desc">Entre la manipulación y la agencia: cómo el consumo incidental de
+          noticias por redes sociales convive con prácticas activas de verificación, discusión y criterio propio.</span>
+        <span class="project-card__link">Ver reporte interactivo</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCACIÓN -->
+<section class="section section--light" id="educacion">
+  <div class="frame frame--wide">
+    <p class="eyebrow reveal">Educación</p>
+    <h2 class="section-title reveal reveal-d1">Formación</h2>
+    <div class="edu-grid reveal reveal-d2">
+      <div class="edu-item">
+        <h3>MAESTRÍA EN INVESTIGACIÓN EN CIENCIAS SOCIALES</h3>
+        <p>Universidad de Buenos Aires, Argentina</p>
+      </div>
+      <div class="edu-item">
+        <h3>LIC. EN CS. DE LA COMUNICACIÓN SOCIAL — ORIENTACIÓN INVESTIGACIÓN</h3>
+        <p>Universidad de Buenos Aires, Argentina</p>
+      </div>
+      <div class="edu-item">
+        <h3>CURSO DE CIENCIAS DE DATOS EN R</h3>
+        <p>Universidad de Buenos Aires, Argentina</p>
+      </div>
+      <div class="edu-item">
+        <h3>CURSO DE ANÁLISIS DE DATOS CON POWER BI</h3>
+        <p>Platzi</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="section section--wine" id="contacto">
+  <div class="frame">
+    <p class="eyebrow reveal">Contacto</p>
+    <h2 class="section-title reveal reveal-d1" style="color:#fff;">¡Gracias por tu visita!</h2>
+    <p class="lede reveal reveal-d2">Si querés conversar sobre una oportunidad, un proyecto de investigación o
+      simplemente charlar de datos y audiencias, escribime.</p>
+    <div class="contact-links reveal reveal-d3">
+      <a class="contact-pill" href="mailto:sandovaljosemario9@gmail.com">✉ sandovaljosemario9@gmail.com</a>
+      <a class="contact-pill" href="#" target="_blank" rel="noopener">in LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">JOSÉ MARIO SANDOVAL · PORTAFOLIO</footer>
+
+<script>
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold:0.16 });
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
