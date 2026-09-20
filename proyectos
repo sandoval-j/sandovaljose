@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Proyectos — José Mario Sandoval</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#161213;
+  --paper:#ffffff;
+  --wine:#7d1f49;
+  --wine-deep:#4a1030;
+  --wine-bright:#a12a5e;
+  --rose:#a13853;
+  --grey:#8f8a8d;
+  --line:#e7dfe2;
+  --cream:#f6eff1;
+  --serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --sans: 'Oswald', 'Arial Narrow', Arial, sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth; scroll-padding-top:70px;}
+body{
+  margin:0; font-family:var(--serif); background:#0a0a0a; color:#f4f0f1;
+  padding-bottom:env(safe-area-inset-bottom,0px); -webkit-font-smoothing:antialiased;
+}
+::selection{ background:var(--wine); color:#fff; }
+a{ color:inherit; }
+
+.section{ position:relative; padding:5.5rem 1.5rem; overflow:hidden; }
+.section--dark{ background:#0a0a0a; color:#f4f0f1; }
+.section--wine{ background:linear-gradient(155deg, var(--wine-deep), var(--wine)); color:#fbeef2; }
+.frame{ max-width:760px; margin:0 auto; }
+.frame--wide{ max-width:1000px; margin:0 auto; }
+
+.nav{
+  position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92); backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:1rem 1.5rem; padding-top:calc(1rem + env(safe-area-inset-top,0px));
+}
+.nav__logo{ font-family:var(--serif); font-style:italic; font-weight:600; font-size:1.2rem; text-decoration:none; color:var(--ink); }
+.nav__links{ display:flex; gap:1.6rem; font-family:var(--sans); font-size:.72rem; letter-spacing:.08em; }
+.nav__links a{ text-decoration:none; color:var(--ink); border-bottom:2px solid transparent; padding-bottom:.2rem; }
+.nav__links a:hover{ border-color:var(--wine); }
+
+.contact-links{ display:flex; flex-wrap:wrap; gap:1.2rem; margin-top:2rem; }
+.contact-pill{ display:inline-flex; align-items:center; gap:.6rem; font-family:var(--sans); font-size:.82rem; letter-spacing:.03em; color:#fff; background:rgba(255,255,255,.12); padding:.85rem 1.3rem; text-decoration:none; border:1px solid rgba(255,255,255,.25); }
+.contact-pill:hover{ background:rgba(255,255,255,.2); }
+
+.eyebrow{
+  font-family:var(--sans); font-size:.7rem; letter-spacing:.14em; font-weight:500;
+  color:#e6b9cc; margin:0 0 1.2rem; text-transform:uppercase;
+}
+
+/* Título — mismo modo que .section-title del HTML original */
+h2.section-title{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:clamp(2.2rem, 6vw, 3.6rem); line-height:1.1;
+  margin:0 0 2.8rem; max-width:18ch; color:#fff;
+}
+
+.section-title .hi{ background:#fff; color:#000; padding:0 .2rem; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+
+p.body-text{
+  font-size:1.05rem; line-height:1.65; max-width:58ch;
+  margin:0 0 2.4rem; color:#cfc6ca;
+}
+
+/* PROYECTOS — mismas tarjetas del HTML original, apiladas verticalmente */
+.projects{
+  display:grid; gap:1.6rem; grid-template-columns:1fr; margin-top:.5rem;
+}
+.project-card{
+  display:flex; flex-direction:column;
+  background:#141414; border:1px solid #262626;
+  text-decoration:none; color:#f4f0f1;
+  transition:border-color .25s ease, transform .25s ease;
+}
+.project-card:hover{ border-color:var(--wine-bright); transform:translateY(-3px); }
+.project-card__tag{
+  font-family:var(--sans); font-size:.66rem; letter-spacing:.1em;
+  color:#e6b9cc; padding:1.4rem 1.5rem 0;
+}
+.project-card__title{
+  font-family:var(--serif); font-style:italic; font-weight:600;
+  font-size:clamp(1.3rem,3vw,1.7rem); line-height:1.25;
+  padding:.6rem 1.5rem 0; margin:0;
+}
+.project-card__desc{
+  font-family:var(--sans); font-size:.85rem; line-height:1.65;
+  color:#b9b0b4; padding:.9rem 1.5rem 1.4rem; flex:1;
+}
+.project-card__link{
+  font-family:var(--sans); font-size:.72rem; letter-spacing:.08em;
+  color:var(--wine-bright); padding:0 1.5rem 1.5rem;
+  font-weight:600;
+}
+.project-card__link::after{ content:" →"; }
+.project-card:hover .project-card__link{ color:#fff; }
+
+/* ANIMACIONES */
+.reveal{ opacity:0; transform:translateY(20px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity:1; transform:none; }
+.reveal-d1{ transition-delay:.08s; }
+.reveal-d2{ transition-delay:.18s; }
+@media (prefers-reduced-motion: reduce){
+  .reveal{ opacity:1; transform:none; transition:none; }
+  html{ scroll-behavior:auto; }
+}
+
+.footer{
+  background:#050505; color:#8f8a8d; text-align:center;
+  padding:2.4rem 1.5rem; font-family:var(--sans); font-size:.7rem; letter-spacing:.08em;
+}
+
+@media(max-width:640px){ .section{ padding:4rem 1.2rem; } }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__logo" href="portafolio.html">Sandoval<span style="color:var(--wine)">·</span>José</a>
+  <div class="nav__links">
+    <a href="sobre-mi.html">Sobre mí</a>
+    <a href="proyectos.html">Proyectos</a>
+    <a href="portafolio.html#contacto">Contacto</a>
+  </div>
+</nav>
+
+<section class="section section--dark">
+  <div class="frame">
+
+    <p class="eyebrow reveal">José Mario Sandoval — Comunicación + Datos</p>
+    <h2 class="section-title reveal reveal-d1"><span class="hi">Proyectos</span></h2>
+    <p class="body-text reveal reveal-d2">
+      Una selección de investigaciones sobre audiencias, prácticas noticiosas y algoritmos
+      en estudiantes de Comunicación (UBA).
+    </p>
+
+    <div class="projects reveal reveal-d2">
+
+      <!-- Proyecto 1 -->
+      <a class="project-card" href="#" target="_blank" rel="noopener">
+        <span class="project-card__tag">INFORME — PRÁCTICAS NOTICIOSAS · 2025</span>
+        <h3 class="project-card__title">
+          ¿Cómo se informan lxs jóvenes? Informe sobre las prácticas noticiosas de estudiantes de Comunicación de la UBA
+        </h3>
+        <span class="project-card__desc">
+          Estudio cuali-cuantitativo sobre prácticas y hábitos informativos, en el cual participé
+          principalmente en el procesamiento de datos cuantitativos. La investigación se basó en una
+          muestra compuesta por 288 encuestas y 53 entrevistas en profundidad realizadas a estudiantes
+          de la Carrera de Comunicación de la UBA.
+        </span>
+        <span class="project-card__link">VER</span>
+      </a>
+
+      <!-- Proyecto 2 -->
+      <a class="project-card" href="https://claude.ai/artifact/CQF4vVjuVDDRQxPM3KArNE" target="_blank" rel="noopener">
+        <span class="project-card__tag">REPORTE — LOCUS DE CONTROL</span>
+        <h3 class="project-card__title">¿Quién tiene el control: vos o el algoritmo?</h3>
+        <span class="project-card__desc">
+          Proyecto de investigación cuantitativa que indaga en la percepción de control sobre las
+          recomendaciones algorítmicas de noticias en redes sociales en estudiantes de comunicación (UBA).
+        </span>
+        <span class="project-card__link">VER</span>
+      </a>
+
+      <!-- Proyecto 3 -->
+      <a class="project-card" href="https://claude.ai/artifact/PU1eZmzstch2NKLSrWdDUT" target="_blank" rel="noopener">
+        <span class="project-card__tag">PONENCIA — IIGG, 2024</span>
+        <h3 class="project-card__title">
+          Una cosa no quita la otra. Entre la Manipulación y la Agencia. Consumo Incidental por Redes Sociales
+        </h3>
+        <span class="project-card__desc">
+          Ponencia presentada en las Jornadas de Jóvenes Investigadorxs del Instituto de Investigaciones
+          Gino Germani 2024. Trabajo cuantitativo y cualitativo sobre consumos y hábitos informativos.
+        </span>
+        <span class="project-card__link">VER</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="section section--wine">
+  <div class="frame">
+    <p class="eyebrow reveal" style="color:#f0c4d6;">¿Hablamos?</p>
+    <h2 class="section-title reveal reveal-d1" style="color:#fff; font-size:clamp(1.9rem,5vw,2.8rem);">¡Gracias por
+      tu visita!</h2>
+    <p class="body-text reveal reveal-d2" style="color:#fbeef2;">Si querés conversar sobre una oportunidad, un
+      proyecto de investigación o simplemente charlar de datos y audiencias, escribime.</p>
+    <div class="contact-links reveal reveal-d2">
+      <a class="contact-pill" href="mailto:sandovaljosemario9@gmail.com">✉ sandovaljosemario9@gmail.com</a>
+      <a class="contact-pill" href="#" target="_blank" rel="noopener">in LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">JOSÉ MARIO SANDOVAL · PROYECTOS</footer>
+
+<script>
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+}, { threshold:0.16 });
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
