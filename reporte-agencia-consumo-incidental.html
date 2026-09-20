@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Una cosa no quita la otra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#000000;
+  --paper:#ffffff;
+  --wine:#7d1f49;
+  --wine-deep:#4a1030;
+  --wine-bright:#a12a5e;
+  --rose:#a13853;
+  --teal:#3e6f64;
+  --teal-bright:#4f8a7d;
+  --grey:#8f8a8d;
+  --cream:#f4eef0;
+  --line:#e7e0e2;
+  --serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --sans: 'Oswald', 'Arial Narrow', Arial, sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth; scroll-padding-top:env(safe-area-inset-top,0px);}
+body{
+  margin:0; font-family:var(--serif); background:var(--paper); color:var(--ink);
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  -webkit-font-smoothing:antialiased;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --paper:#ffffff; } }
+:root[data-theme="dark"]{ --paper:#ffffff; }
+::selection{ background:var(--wine); color:#fff; }
+img,svg{max-width:100%;}
+
+.progress{ position:fixed; top:env(safe-area-inset-top,0px); left:0; right:0; height:3px; z-index:999; }
+.progress__bar{ height:100%; width:0%; background:var(--wine-bright); transition:width .08s linear; }
+
+.chapter{ position:relative; padding:6rem 1.5rem; overflow:hidden; }
+.chapter--dark{ background:var(--ink); color:#f4f0f1; }
+.chapter--light{ background:var(--paper); color:var(--ink); }
+.chapter--wine{ background:linear-gradient(155deg, var(--wine-deep), var(--wine)); color:#fbeef2; }
+.chapter--light + .chapter--light{ border-top:1px solid var(--line); }
+
+.frame{ max-width:720px; margin:0 auto; }
+.frame--wide{ max-width:920px; }
+
+.eyebrow{ font-family:var(--sans); font-size:.7rem; letter-spacing:.14em; font-weight:500; color:var(--wine); margin:0 0 1.3rem; }
+.chapter--dark .eyebrow{ color:#e2b3c5; }
+.chapter--wine .eyebrow{ color:#e6b9cc; }
+
+h2.chapter-title{ font-family:var(--serif); font-style:italic; font-weight:500; font-size:clamp(1.6rem,3.6vw,2.4rem); line-height:1.2; margin:0 0 1.5rem; max-width:20ch; }
+
+p.lede{ font-size:clamp(1.1rem,1.9vw,1.32rem); line-height:1.55; font-weight:400; margin:0 0 1.1rem; max-width:62ch; }
+p.body-text{ font-size:1.06rem; line-height:1.65; margin:0 0 1.1rem; max-width:62ch; color:#2a2a2a; }
+.chapter--dark p.body-text{ color:#e7e0e2; }
+
+.mark{ background:var(--ink); color:#fff; padding:.05em .28em; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+.chapter--dark .mark{ background:#fff; color:#000; }
+.mark--wine{ background:var(--wine); color:#fff; }
+.mark--rose{ background:var(--rose); color:#fff; }
+.mark--teal{ background:var(--teal); color:#fff; }
+
+.cite{ font-family:var(--sans); font-size:.68rem; letter-spacing:.03em; color:var(--grey); margin-top:.5rem; }
+
+.pull{ font-family:var(--serif); font-style:italic; font-size:clamp(1.15rem,2.2vw,1.5rem); line-height:1.5; border-left:3px solid var(--wine-bright); padding-left:1.2rem; margin:1.8rem 0; max-width:56ch; color:#1a1a1a; }
+.chapter--dark .pull{ color:#f2e6ec; }
+.pull cite{ display:block; font-style:normal; font-family:var(--sans); font-size:.66rem; letter-spacing:.05em; color:var(--grey); margin-top:.6rem; }
+
+.reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity:1; transform:none; }
+.reveal-d1{ transition-delay:.08s; }
+.reveal-d2{ transition-delay:.18s; }
+.reveal-d3{ transition-delay:.28s; }
+@media (prefers-reduced-motion: reduce){ .reveal{opacity:1; transform:none; transition:none;} html{scroll-behavior:auto;} }
+
+/* cover */
+.cover{ position:relative; min-height:100svh; background:var(--ink); color:#fff; display:flex; align-items:flex-end; padding:3.2rem 1.5rem 3.6rem; overflow:hidden; }
+.cover__silhouettes{ position:absolute; inset:0; z-index:0; }
+.cover__content{ position:relative; z-index:2; width:100%; max-width:1100px; margin:0 auto; }
+.cover__kicker{ font-family:var(--sans); font-size:.7rem; letter-spacing:.16em; color:#cbb9c2; margin-bottom:1rem; }
+.cover__title{ font-family:var(--serif); font-style:italic; font-weight:500; font-size:clamp(2.6rem,9vw,5.4rem); line-height:1.02; margin:0 0 1rem; max-width:11ch; }
+.cover__title .hi{ background:#fff; color:#000; padding:0 .2rem; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+.cover__subtitle{ font-family:var(--serif); font-size:clamp(1rem,2vw,1.25rem); font-style:normal; color:#d8ccd1; max-width:38ch; line-height:1.4; margin:0 0 2.2rem; }
+.cover__meta{ font-family:var(--sans); font-size:.68rem; letter-spacing:.05em; color:#8f8a8d; line-height:1.7; }
+.cover__tag{ position:absolute; top:2rem; right:1.5rem; font-family:var(--sans); font-size:.65rem; letter-spacing:.08em; color:#0a0a0a; background:var(--wine-bright); padding:.5rem .8rem; z-index:2; }
+.cover__scroll{ position:absolute; bottom:1.6rem; left:50%; transform:translateX(-50%); font-family:var(--sans); font-size:.65rem; letter-spacing:.14em; color:#cbb9c2; display:flex; flex-direction:column; align-items:center; gap:.5rem; z-index:2; }
+.cover__scroll i{ width:1px; height:34px; background:linear-gradient(#cbb9c2, transparent); display:block; animation:scrollhint 1.8s ease-in-out infinite; }
+@keyframes scrollhint{ 0%,100%{opacity:.25;} 50%{opacity:1;} }
+@media (prefers-reduced-motion: reduce){ .cover__scroll i{animation:none;} }
+
+/* donut */
+.donut-wrap{ display:flex; flex-wrap:wrap; align-items:center; gap:2.4rem; margin-top:2rem; }
+.donut{ width:200px; height:200px; flex:none; }
+.donut svg{ width:100%; height:100%; display:block; transform:rotate(-90deg); }
+.donut circle{ fill:none; stroke-width:24; }
+.donut .bg{ stroke:#ece4e7; }
+.chapter--dark .donut .bg{ stroke:#232323; }
+.donut .seg{ stroke-dasharray:0 566; transition:stroke-dasharray 1.3s cubic-bezier(.2,.8,.2,1); }
+.donut-legend{ display:flex; flex-direction:column; gap:1rem; font-family:var(--sans); }
+.legend-item{ display:flex; align-items:baseline; gap:.55rem; }
+.legend-swatch{ width:9px; height:9px; border-radius:50%; flex:none; }
+.legend-value{ font-size:1.7rem; font-weight:600; }
+.legend-label{ font-size:.86rem; color:#3a3a3a; font-family:var(--serif); }
+.chapter--dark .legend-label{ color:#e7e0e2; }
+
+/* simple hbar */
+.sbar-list{ display:flex; flex-direction:column; gap:1.1rem; margin-top:1.8rem; }
+.sbar-row{ display:grid; grid-template-columns:6.4rem 1fr; gap:1rem; align-items:center; }
+.sbar-name{ font-family:var(--sans); font-size:.8rem; color:#3a3a3a; }
+.chapter--dark .sbar-name{ color:#dcd3d7; }
+.sbar-track{ position:relative; height:30px; background:#f1eaec; }
+.chapter--dark .sbar-track{ background:#1c1c1c; }
+.sbar-fill{ height:100%; width:0%; display:flex; align-items:center; transition:width 1.1s cubic-bezier(.2,.8,.2,1); }
+.sbar-fill span{ padding:0 .6rem; font-family:var(--sans); font-size:.78rem; font-weight:600; color:#fff; white-space:nowrap; }
+
+/* vertical bars */
+.vbar-wrap{ display:flex; align-items:flex-end; gap:1.6rem; height:180px; margin-top:2.2rem; }
+.vbar-col{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; }
+.vbar{ width:100%; max-width:90px; background:var(--wine); height:0%; position:relative; transition:height 1.1s cubic-bezier(.2,.8,.2,1); }
+.vbar .val{ position:absolute; bottom:100%; left:50%; transform:translateX(-50%); font-family:var(--sans); font-size:.78rem; font-weight:600; margin-bottom:.3rem; white-space:nowrap; color:#1a1a1a;}
+.chapter--dark .vbar .val{ color:#f4f0f1; }
+.vbar-label{ font-family:var(--sans); font-size:.72rem; color:#3a3a3a; margin-top:.7rem; text-align:center; max-width:8rem; }
+.chapter--dark .vbar-label{ color:#dcd3d7; }
+
+.callout-box{ background:var(--cream); border-left:3px solid var(--wine); padding:1.2rem 1.3rem; margin:2rem 0; font-family:var(--sans); font-size:.85rem; line-height:1.6; color:#3a2530; }
+.callout-box b{ font-size:1.6rem; font-family:var(--serif); font-style:italic; display:block; color:var(--wine); margin-bottom:.3rem; }
+
+/* references */
+.refs{ display:grid; gap:1.4rem; margin-top:1.6rem; grid-template-columns:1fr; }
+.ref-item{ font-size:.92rem; line-height:1.55; color:#3a3a3a; }
+.chapter--dark .ref-item{ color:#d8d0d3; }
+.ref-item a{ color:inherit; }
+
+.study-card{ display:grid; gap:1rem; grid-template-columns:repeat(2,1fr); margin-top:1.6rem; font-family:var(--sans); }
+.study-card div{ border-top:2px solid var(--wine); padding-top:.6rem; }
+.study-card span{ display:block; font-size:.65rem; letter-spacing:.06em; color:var(--grey); margin-bottom:.3rem; }
+.study-card strong{ font-family:var(--serif); font-size:1.25rem; font-weight:500; font-style:italic; color:var(--ink); }
+
+.closing{ min-height:64svh; background:#000; color:#fff; display:flex; align-items:center; justify-content:center; text-align:center; padding:4rem 1.5rem; }
+.closing__title{ font-family:var(--serif); font-style:italic; font-weight:500; font-size:clamp(1.8rem,5vw,2.8rem); line-height:1.2; max-width:20ch; }
+.closing__foot{ font-family:var(--sans); font-size:.68rem; letter-spacing:.1em; color:#8f8a8d; margin-top:2rem; }
+
+@media (max-width:640px){
+  .chapter{ padding:4rem 1.2rem; }
+  .sbar-row{ grid-template-columns:1fr; }
+  .study-card{ grid-template-columns:1fr; }
+  .vbar-wrap{ gap:.9rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress"><div class="progress__bar" id="progressBar"></div></div>
+
+<!-- COVER -->
+<section class="cover">
+  <div class="cover__silhouettes" aria-hidden="true">
+    <svg viewBox="0 0 1100 900" preserveAspectRatio="xMaxYMid slice" style="width:100%;height:100%;">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#8f2f63"/><stop offset="1" stop-color="#3c0f28"/>
+        </linearGradient>
+        <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#a83a70"/><stop offset="1" stop-color="#4a1330"/>
+        </linearGradient>
+      </defs>
+      <g opacity="0.85">
+        <circle cx="1000" cy="60" r="130" fill="url(#g1)"/>
+        <circle cx="1090" cy="260" r="150" fill="url(#g2)"/>
+        <circle cx="980" cy="440" r="140" fill="url(#g1)"/>
+        <circle cx="1095" cy="620" r="160" fill="url(#g2)"/>
+        <circle cx="960" cy="790" r="140" fill="url(#g1)"/>
+        <circle cx="1080" cy="930" r="150" fill="url(#g2)"/>
+      </g>
+    </svg>
+  </div>
+  <span class="cover__tag">EJE 4 · MEDIOS Y TECNOLOGÍAS DIGITALES</span>
+  <div class="cover__content">
+    <p class="cover__kicker">PONENCIA — XII JORNADAS DE JÓVENES INVESTIGADORXS</p>
+    <h1 class="cover__title">Una cosa no <span class="hi">quita</span> la otra</h1>
+    <p class="cover__subtitle">Entre la manipulación y la agencia: consumo incidental de noticias por redes
+      sociales</p>
+    <p class="cover__meta">JOSÉ MARIO SANDOVAL · INSTITUTO DE INVESTIGACIONES GINO GERMANI<br>
+      23, 24 y 25 de octubre de 2024</p>
+  </div>
+  <div class="cover__scroll"><i></i>SCROLL</div>
+</section>
+
+<!-- INTRO -->
+<section class="chapter chapter--light" id="intro">
+  <div class="frame">
+    <p class="eyebrow reveal">Punto de partida</p>
+    <h2 class="chapter-title reveal reveal-d1">La casualidad se volvió un hábito</h2>
+    <p class="lede reveal reveal-d2">El acceso a las noticias mediante algoritmos en redes sociales se vuelve cada
+      vez más central, sobre todo entre quienes pasan más tiempo conectados.</p>
+    <p class="body-text reveal reveal-d2">Este trabajo pone en cuestión la connotación
+      <span class="mark mark--wine">absolutamente pasiva e irreflexiva</span> que suele asociarse a informarse por
+      contenido aleatorio, sin desmerecer la influencia algorítmica sobre lo visible y lo invisible en las
+      plataformas. El objetivo es mostrar cómo esa forma de informarse convive con prácticas activas: compartir,
+      comentar, discutir, dudar, indagar.</p>
+    <div class="pull reveal reveal-d3">Las audiencias son activas y, a veces, hiperactivas... pero también son
+      capaces de dispersarse y perderse en lo banal.
+      <cite>OROZCO, 1997</cite>
+    </div>
+  </div>
+</section>
+
+<!-- SAMPLE -->
+<section class="chapter chapter--light" id="sample">
+  <div class="frame frame--wide">
+    <p class="eyebrow reveal">La muestra</p>
+    <h2 class="chapter-title reveal reveal-d1">Estudiantes de Comunicación (UBA), 18 a 25 años</h2>
+    <p class="body-text reveal reveal-d2">Estudio exploratorio realizado en la materia Audiencias sobre hábitos
+      informativos, con <span class="mark mark--wine">125 estudiantes</span> encuestados y entrevistas en
+      profundidad.</p>
+    <div class="donut-wrap reveal reveal-d3" id="donutAge">
+      <div class="donut">
+        <svg viewBox="0 0 200 200">
+          <circle class="bg" cx="100" cy="100" r="80"></circle>
+          <circle class="seg" id="segAge1" cx="100" cy="100" r="80" stroke="#7d1f49"></circle>
+          <circle class="seg" id="segAge2" cx="100" cy="100" r="80" stroke="#3e6f64"></circle>
+        </svg>
+      </div>
+      <div class="donut-legend">
+        <div class="legend-item"><span class="legend-swatch" style="background:#7d1f49"></span>
+          <span class="legend-value" style="color:#7d1f49" id="valAge1">0%</span></div>
+        <p class="legend-label" style="margin:-.4rem 0 .6rem 1.4rem;">103 personas — 18 a 25 años</p>
+        <div class="legend-item"><span class="legend-swatch" style="background:#3e6f64"></span>
+          <span class="legend-value" style="color:#3e6f64" id="valAge2">0%</span></div>
+        <p class="legend-label" style="margin:-.4rem 0 0 1.4rem;">22 personas — 26 a 35 años</p>
+      </div>
+    </div>
+    <p class="cite reveal reveal-d3" style="margin-top:1rem;">GRÁFICO 0.1 · DISTRIBUCIÓN DE LA MUESTRA SEGÚN EDAD · N=125</p>
+  </div>
+</section>
+
+<!-- ALGORITMO, AGENCIA Y DIALÉCTICA -->
+<section class="chapter chapter--dark" id="dialectica">
+  <div class="frame frame--wide">
+    <p class="eyebrow reveal">Algoritmo, agencia y dialéctica</p>
+    <div class="callout-box reveal reveal-d1">
+      <b>82,40%</b>
+      de los estudiantes de 18 a 25 años se informa mediante noticias que aparecen aleatoriamente por redes
+      sociales.
+    </div>
+    <p class="body-text reveal reveal-d2">Desde una perspectiva "desde arriba", esa cifra representaría usuarios
+      pasivos e irreflexivos, con la percepción administrada por algoritmos que crean, en términos de Lippmann,
+      <em>"seudo-entornos"</em>. Sin embargo, informarse de manera incidental no excluye la agencia ni la actividad
+      crítica de las audiencias.</p>
+
+    <p class="lede reveal reveal-d2" style="font-size:1rem; margin-top:2.4rem; color:#e7e0e2;">Nivel de atención a
+      la veracidad de las noticias que llegan por redes sociales o mensajería directa</p>
+    <div class="sbar-list reveal reveal-d2" id="chartVer1">
+      <div class="sbar-row"><span class="sbar-name">Mucho</span>
+        <div class="sbar-track"><div class="sbar-fill" style="background:var(--rose)" data-w="63.11"><span>63,11%</span></div></div></div>
+      <div class="sbar-row"><span class="sbar-name">Algo</span>
+        <div class="sbar-track"><div class="sbar-fill" style="background:#734a5c" data-w="33.98"><span>33,98%</span></div></div></div>
+      <div class="sbar-row"><span class="sbar-name">Nada</span>
+        <div class="sbar-track"><div class="sbar-fill" style="background:#3e2530" data-w="2.91"><span>2,91%</span></div></div></div>
+    </div>
+    <p class="cite reveal reveal-d2" style="margin-top:.8rem;">GRÁFICO 0.2 · ATENCIÓN A LA VERACIDAD — RR.SS / MENSAJERÍA</p>
+
+    <div class="pull reveal reveal-d3">"Cuidarse de que no te vendan manzana podrida": contrasta la información con
+      otros medios y, si se trata de imágenes, rastrea su origen en Google.
+      <cite>ENTREVISTADO, ESTUDIO PROPIO</cite>
+    </div>
+
+    <p class="lede reveal reveal-d3" style="font-size:1rem; margin-top:2rem; color:#e7e0e2;">Atención a la
+      veracidad de las noticias leídas en portales informativos</p>
+    <div class="sbar-list reveal reveal-d3" id="chartVer2">
+      <div class="sbar-row"><span class="sbar-name">Algo</span>
+        <div class="sbar-track"><div class="sbar-fill" style="background:var(--rose)" data-w="44.66"><span>44,66%</span></div></div></div>
+      <div class="sbar-row"><span class="sbar-name">Mucho</span>
+        <div class="sbar-track"><div class="sbar-fill" style="background:#734a5c" data-w="42.72"><span>42,72%</span></div></div></div>
+      <div class="sbar-row"><span class="sbar-name">Nada</span>
+        <div class="sbar-track"><div class="sbar-fill" style="background:#3e2530" data-w="12.62"><span>12,62%</span></div></div></div>
+    </div>
+    <p class="cite reveal reveal-d3" style="margin-top:.8rem;">GRÁFICO 0.3 · ATENCIÓN A LA VERACIDAD — PORTALES DE NOTICIAS</p>
+  </div>
+</section>
+
+<!-- INTERES -->
+<section class="chapter chapter--light" id="interes">
+  <div class="frame frame--wide">
+    <p class="eyebrow reveal">La institución universitaria como mediación</p>
+    <h2 class="chapter-title reveal reveal-d1">"Te desarrolla una mirada crítica"</h2>
+    <p class="body-text reveal reveal-d2">La pertenencia a la carrera también atraviesa el grado de interés por el
+      contenido noticioso — un interés que puede ser precedente, reforzado o incluso forzado por la propia
+      formación.</p>
+    <div class="donut-wrap reveal reveal-d3" id="donutInterest">
+      <div class="donut">
+        <svg viewBox="0 0 200 200">
+          <circle class="bg" cx="100" cy="100" r="80"></circle>
+          <circle class="seg" id="segInt1" cx="100" cy="100" r="80" stroke="#7d1f49"></circle>
+          <circle class="seg" id="segInt2" cx="100" cy="100" r="80" stroke="#3e6f64"></circle>
+          <circle class="seg" id="segInt3" cx="100" cy="100" r="80" stroke="#d8ccd1"></circle>
+        </svg>
+      </div>
+      <div class="donut-legend">
+        <div class="legend-item"><span class="legend-swatch" style="background:#7d1f49"></span>
+          <span class="legend-value" style="color:#7d1f49" id="valInt1">0%</span>
+          <span class="legend-label">Mucho interés</span></div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#3e6f64"></span>
+          <span class="legend-value" style="color:#3e6f64" id="valInt2">0%</span>
+          <span class="legend-label">Algo de interés</span></div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#b7abb0"></span>
+          <span class="legend-value" style="color:#8f8a8d" id="valInt3">0%</span>
+          <span class="legend-label">Nada de interés</span></div>
+      </div>
+    </div>
+    <p class="cite reveal reveal-d3" style="margin-top:1rem;">GRÁFICO 0.4 · NIVEL DE INTERÉS POR LAS NOTICIAS</p>
+    <div class="pull reveal reveal-d3">Si yo hubiese decidido estudiar música siento que no estaría tan interesado
+      en las noticias.
+      <cite>ENTREVISTADO, ESTUDIO PROPIO</cite>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARTIR / COMENTAR -->
+<section class="chapter chapter--dark" id="compartir">
+  <div class="frame frame--wide">
+    <p class="eyebrow reveal">Compartir, comentar y discutir ¿por qué?</p>
+    <h2 class="chapter-title reveal reveal-d1" style="max-width:22ch;">Lo ocasional cobra sentido cuando se
+      pregunta "¿por qué?"</h2>
+    <p class="body-text reveal reveal-d2">El 61,17% de los encuestados compartió una noticia por redes sociales o
+      mensajería en los últimos 15 días — aunque sólo el 15,53% lo hace frecuentemente.</p>
+
+    <div class="vbar-wrap reveal reveal-d2" id="chartShare15">
+      <div class="vbar-col"><div class="vbar" style="background:var(--rose)" data-h="61.17"><span class="val">61,17%</span></div><p class="vbar-label">Sí compartió</p></div>
+      <div class="vbar-col"><div class="vbar" style="background:#3a3a3a" data-h="38.83"><span class="val">38,83%</span></div><p class="vbar-label">No compartió</p></div>
+    </div>
+    <p class="cite reveal reveal-d2" style="margin-top:.9rem;">GRÁFICO 0.5 · COMPARTICIÓN DE NOTICIAS, ÚLTIMOS 15 DÍAS</p>
+
+    <div class="vbar-wrap reveal reveal-d3" id="chartShareFreq" style="margin-top:2.6rem;">
+      <div class="vbar-col"><div class="vbar" style="background:var(--rose)" data-h="57.28"><span class="val">57,28%</span></div><p class="vbar-label">Ocasionalmente</p></div>
+      <div class="vbar-col"><div class="vbar" style="background:#734a5c" data-h="27.18"><span class="val">27,18%</span></div><p class="vbar-label">Nunca</p></div>
+      <div class="vbar-col"><div class="vbar" style="background:#3e2530" data-h="15.53"><span class="val">15,53%</span></div><p class="vbar-label">Frecuentemente</p></div>
+    </div>
+    <p class="cite reveal reveal-d3" style="margin-top:.9rem;">GRÁFICO 0.6 · FRECUENCIA DE COMPARTICIÓN</p>
+
+    <div class="pull reveal reveal-d3">Comparto muy específicamente en momentos de coyuntura nacional donde uno
+      siente que tiene que tomar posición porque lo de uno está en juego.
+      <cite>ENTREVISTADO, ESTUDIO PROPIO</cite>
+    </div>
+  </div>
+</section>
+
+<!-- COMENTAR/DISCUTIR -->
+<section class="chapter chapter--light" id="discutir">
+  <div class="frame frame--wide">
+    <p class="eyebrow reveal">¿Silencio pasivo o consideración activa?</p>
+    <p class="body-text reveal reveal-d1">El 45,63% nunca comenta ni discute sobre noticias por redes sociales — y
+      el 41,75% sólo lo hace si le interesa la noticia. Pero no debatir online no equivale, sin más, a pasividad.</p>
+
+    <div class="vbar-wrap reveal reveal-d2" id="chartDiscuss">
+      <div class="vbar-col"><div class="vbar" style="background:var(--wine)" data-h="45.63"><span class="val">45,63%</span></div><p class="vbar-label">Nunca</p></div>
+      <div class="vbar-col"><div class="vbar" style="background:#a35a76" data-h="41.75"><span class="val">41,75%</span></div><p class="vbar-label">Solo si me interesa</p></div>
+      <div class="vbar-col"><div class="vbar" style="background:#c98aa4" data-h="12.62"><span class="val">12,62%</span></div><p class="vbar-label">Habitualmente</p></div>
+    </div>
+    <p class="cite reveal reveal-d2" style="margin-top:.9rem;">GRÁFICO 0.7 · DISPOSICIÓN A COMENTAR / DISCUTIR</p>
+
+    <div class="donut-wrap reveal reveal-d3" id="donutNoComment" style="margin-top:2.6rem;">
+      <div class="donut">
+        <svg viewBox="0 0 200 200">
+          <circle class="bg" cx="100" cy="100" r="80"></circle>
+          <circle class="seg" id="segNC1" cx="100" cy="100" r="80" stroke="#7d1f49"></circle>
+          <circle class="seg" id="segNC2" cx="100" cy="100" r="80" stroke="#3e6f64"></circle>
+          <circle class="seg" id="segNC3" cx="100" cy="100" r="80" stroke="#d8ccd1"></circle>
+        </svg>
+      </div>
+      <div class="donut-legend">
+        <div class="legend-item"><span class="legend-swatch" style="background:#7d1f49"></span>
+          <span class="legend-value" style="color:#7d1f49" id="valNC1">0%</span>
+          <span class="legend-label">Mucha atención</span></div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#3e6f64"></span>
+          <span class="legend-value" style="color:#3e6f64" id="valNC2">0%</span>
+          <span class="legend-label">Algo de atención</span></div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#b7abb0"></span>
+          <span class="legend-value" style="color:#8f8a8d" id="valNC3">0%</span>
+          <span class="legend-label">Nada de atención</span></div>
+      </div>
+    </div>
+    <p class="cite reveal reveal-d3" style="margin-top:1rem;">GRÁFICO 0.8 · ATENCIÓN A LA VERACIDAD EN QUIENES NUNCA COMENTAN</p>
+    <p class="body-text reveal reveal-d3" style="margin-top:1.4rem;">Es decir: la desconexión de la discusión
+      pública en redes <span class="mark mark--wine">no excluye la vigilancia crítica</span> frente a la
+      información que se recibe.</p>
+  </div>
+</section>
+
+<!-- METAFORA / CIERRE REFLEXIVO -->
+<section class="chapter chapter--wine" id="metafora">
+  <div class="frame frame--wide">
+    <p class="eyebrow reveal">Conclusión</p>
+    <p class="lede reveal reveal-d1" style="max-width:58ch;">Los algoritmos y su oferta de contenido ejercen su
+      influencia al definir con qué se topa el usuario — pero este lejos está de la irreflexión, al igual que lo
+      está de su absoluta libertad.</p>
+    <p class="body-text reveal reveal-d2" style="max-width:58ch; color:#fbeef2;">Son relaciones de fuerzas que
+      denotan la coexistencia de prácticas activas y pasivas: la desconfianza sobre las redes convive con la
+      "credulidad" hacia los portales; la atención a la fidelidad de una noticia convive con la inactividad de no
+      compartir, comentar o discutir online — algo que a su vez convive con el debate en "la vida real".</p>
+    <div class="pull reveal reveal-d3" style="border-left-color:#fff; color:#fbeef2; max-width:58ch;">El océano es
+      avasallante y algunos se dejarán llevar por la inercia, otros intentarán controlarlo, y habrá aquienes para
+      quienes no se tratará de dominar el agua, sino sus movimientos en ella.
+      <cite style="color:#e6b9cc;">CIERRE DE LA PONENCIA</cite>
+    </div>
+  </div>
+</section>
+
+<!-- FICHA + REFERENCIAS -->
+<section class="chapter chapter--light" id="referencias">
+  <div class="frame frame--wide">
+    <p class="eyebrow reveal">Ficha del estudio</p>
+    <div class="study-card reveal reveal-d1">
+      <div><span>MUESTRA</span><strong>125 estudiantes</strong></div>
+      <div><span>PERFIL</span><strong>Comunicación (UBA), 18–25</strong></div>
+      <div><span>EJE TEMÁTICO</span><strong>Medios y tecnologías digitales</strong></div>
+      <div><span>PRESENTADO EN</span><strong>Jornadas IIGG, oct. 2024</strong></div>
+    </div>
+
+    <p class="eyebrow reveal reveal-d2" style="margin-top:3rem;">Referencias citadas</p>
+    <div class="refs reveal reveal-d2">
+      <p class="ref-item">Ang, I. (1996). <em>Las guerras de la sala de estar. Nuevas tecnologías, índices de
+        audiencia y tácticas en el consumo de la televisión.</em> En Silverstone, R. y Hirsch, E. (Eds.), Los
+        efectos de la nueva comunicación (pp. 193–211). Bosch.</p>
+      <p class="ref-item">Fletcher, R. (2023). <em>Actitudes hacia los algoritmos y su impacto en las
+        noticias.</em> Reuters Institute.</p>
+      <p class="ref-item">Livingstone, S. (2018). Audiences in an Age of Datification: Critical Questions for
+        media research. <em>Television &amp; New Media</em>, 1–14.</p>
+      <p class="ref-item">Méndiz, A. (2008). La influencia del cine en los jóvenes y en la familia. En La familia,
+        paradigma del cambio social (pp. 171–190). Universitat Internacional de Catalunya.</p>
+      <p class="ref-item">Miller, D. y otros (2021). Introducción y Reflexiones teóricas. En <em>El smartphone
+        global: más allá de una tecnología para jóvenes.</em> UCL Press.</p>
+      <p class="ref-item">Mitchelstein, E., &amp; Boczkowski, P. J. (2017). Juventud, estatus y conexiones.
+        Explicación del consumo incidental de noticias en redes sociales. <em>Revista Mexicana de Opinión
+        Pública</em>, (24), 131–145.</p>
+      <p class="ref-item">Morley, D. (1996a). Hacia una etnografía de la audiencia. En <em>Televisión, audiencias y
+        estudios culturales</em> (pp. 249–265). Amorrortu.</p>
+      <p class="ref-item">Morley, D. (1996b). Historia crítica de la investigación sobre las audiencias
+        televisivas. En <em>Televisión, audiencias y estudios culturales</em> (pp. 73–90). Amorrortu.</p>
+      <p class="ref-item">Napoli, P. (2011). Ratings y medición de audiencia. En Nightingale, V. (Ed.), <em>The
+        Handbook of media audiences</em> (pp. 286–301). Blackwell Publishing.</p>
+      <p class="ref-item">Nightingale, V. (1999). Codificación/descodificación. En <em>El estudio de las
+        audiencias. El impacto de lo real</em> (pp. 49–77). Paidós.</p>
+      <p class="ref-item">Orozco, G. (1997). Medios, audiencias y mediaciones. <em>Comunicar</em>, núm. 8. Grupo
+        Comunicar Huelva, España.</p>
+      <p class="ref-item">Silverstone, R. (2004). La textura de la experiencia y Mediatización. En <em>¿Por qué
+        estudiar los medios?</em> (pp. 13–40). Amorrortu.</p>
+      <p class="ref-item">Travancas, I. (2007). O jornal nacional e os jovens do Rio. En <em>Juventude e
+        Televisão</em> (pp. 29–37). FGV.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<footer class="closing">
+  <div>
+    <p class="closing__title">Una cosa no quita la otra</p>
+    <p class="closing__foot">JOSÉ MARIO SANDOVAL · INSTITUTO DE INVESTIGACIONES GINO GERMANI</p>
+  </div>
+</footer>
+
+<script>
+const bar = document.getElementById('progressBar');
+function updateProgress(){
+  const h = document.documentElement;
+  const scrolled = h.scrollTop, height = h.scrollHeight - h.clientHeight;
+  bar.style.width = (height>0 ? (scrolled/height)*100 : 0) + '%';
+}
+document.addEventListener('scroll', updateProgress, {passive:true});
+updateProgress();
+
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold:0.16});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+const CIRC = 2*Math.PI*80;
+function countUp(el, target, dur=1100){
+  const start = performance.now();
+  function step(t){
+    const p = Math.min(1,(t-start)/dur);
+    el.textContent = (target*p).toFixed(2).replace('.', ',') + '%';
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function makeDonut(wrapId, segs, valIds){
+  // segs: array of {id, value}
+  const wrap = document.getElementById(wrapId);
+  if(!wrap) return;
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        let offset = 0;
+        segs.forEach((s,i)=>{
+          const el = document.getElementById(s.id);
+          const dash = (s.value/100)*CIRC;
+          el.style.strokeDasharray = dash + ' ' + CIRC;
+          el.style.strokeDashoffset = -offset;
+          offset += dash;
+          countUp(document.getElementById(valIds[i]), s.value);
+        });
+        obs.disconnect();
+      }
+    });
+  }, {threshold:0.35});
+  obs.observe(wrap);
+}
+makeDonut('donutAge', [{id:'segAge1',value:82.40},{id:'segAge2',value:17.60}], ['valAge1','valAge2']);
+makeDonut('donutInterest', [{id:'segInt1',value:51.46},{id:'segInt2',value:46.60},{id:'segInt3',value:1.94}], ['valInt1','valInt2','valInt3']);
+makeDonut('donutNoComment', [{id:'segNC1',value:53.19},{id:'segNC2',value:42.55},{id:'segNC3',value:4.26}], ['valNC1','valNC2','valNC3']);
+
+function observeBars(id, selector, prop){
+  const el = document.getElementById(id);
+  if(!el) return;
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        el.querySelectorAll(selector).forEach(b=>{
+          const w = b.getAttribute('data-w') ?? b.getAttribute('data-h');
+          b.style[prop] = w + '%';
+        });
+        obs.disconnect();
+      }
+    });
+  }, {threshold:0.3});
+  obs.observe(el);
+}
+observeBars('chartVer1', '.sbar-fill', 'width');
+observeBars('chartVer2', '.sbar-fill', 'width');
+observeBars('chartShare15', '.vbar', 'height');
+observeBars('chartShareFreq', '.vbar', 'height');
+observeBars('chartDiscuss', '.vbar', 'height');
+</script>
+</body>
+</html>
