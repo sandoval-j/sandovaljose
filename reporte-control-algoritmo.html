@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>¿Quién tiene el control: vos o el algoritmo?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#000000;
+  --paper:#ffffff;
+  --wine:#7d1f49;
+  --wine-deep:#4a1030;
+  --wine-bright:#a12a5e;
+  --rose:#a13853;
+  --teal:#3e6f64;
+  --teal-bright:#4f8a7d;
+  --grey:#8f8a8d;
+  --cream:#f4eef0;
+  --serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --sans: 'Oswald', 'Arial Narrow', Arial, sans-serif;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth; scroll-padding-top:env(safe-area-inset-top,0px);}
+body{
+  margin:0;
+  font-family:var(--serif);
+  background:var(--paper);
+  color:var(--ink);
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  -webkit-font-smoothing:antialiased;
+}
+
+body[data-theme]{}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --paper:#ffffff; }
+}
+:root[data-theme="dark"]{ --paper:#ffffff; }
+
+::selection{ background:var(--wine); color:#fff; }
+
+img,svg{max-width:100%;}
+
+.progress{
+  position:fixed; top:env(safe-area-inset-top,0px); left:0; right:0; height:3px;
+  background:transparent; z-index:999;
+}
+.progress__bar{ height:100%; width:0%; background:var(--wine-bright); transition:width .08s linear; }
+
+/* ---------- generic chapter layout ---------- */
+.chapter{
+  position:relative;
+  padding:6.5rem 1.5rem;
+  overflow:hidden;
+}
+.chapter--dark{ background:var(--ink); color:#f4f0f1; }
+.chapter--light{ background:var(--paper); color:var(--ink); }
+.chapter--wine{ background:linear-gradient(155deg, var(--wine-deep), var(--wine)); color:#fbeef2; }
+
+.frame{
+  max-width:760px;
+  margin:0 auto;
+}
+.frame--wide{ max-width:920px; }
+
+.eyebrow{
+  font-family:var(--sans);
+  font-size:0.72rem;
+  letter-spacing:.14em;
+  font-weight:500;
+  color:var(--grey);
+  margin:0 0 1.4rem;
+}
+.chapter--dark .eyebrow{ color:#a99aa1; }
+.chapter--wine .eyebrow{ color:#e6b9cc; }
+
+h2.chapter-title{
+  font-family:var(--serif);
+  font-style:italic;
+  font-weight:500;
+  font-size:clamp(1.7rem, 4vw, 2.6rem);
+  line-height:1.18;
+  margin:0 0 1.6rem;
+  max-width:15ch;
+}
+
+p.lede{
+  font-size:clamp(1.15rem, 2.1vw, 1.4rem);
+  line-height:1.5;
+  font-weight:400;
+  margin:0 0 1.2rem;
+  max-width:62ch;
+}
+
+.mark{
+  background:var(--ink); color:#fff;
+  padding:.05em .28em;
+  box-decoration-break:clone;
+  -webkit-box-decoration-break:clone;
+}
+.chapter--dark .mark{ background:#fff; color:#000; }
+.mark--wine{ background:var(--wine); color:#fff; }
+.mark--rose{ background:var(--rose); color:#fff; }
+.mark--teal{ background:var(--teal); color:#fff; }
+
+.cite{
+  font-family:var(--sans);
+  font-size:.7rem;
+  letter-spacing:.03em;
+  color:var(--grey);
+  margin-top:.6rem;
+}
+
+.reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity:1; transform:none; }
+.reveal-d1{ transition-delay:.08s; }
+.reveal-d2{ transition-delay:.18s; }
+.reveal-d3{ transition-delay:.28s; }
+
+@media (prefers-reduced-motion: reduce){
+  .reveal{ opacity:1; transform:none; transition:none; }
+  html{ scroll-behavior:auto; }
+}
+
+/* ---------- cover ---------- */
+.cover{
+  position:relative;
+  min-height:100svh;
+  background:var(--ink);
+  color:#fff;
+  display:flex;
+  align-items:flex-end;
+  padding:3.2rem 1.5rem 3.6rem;
+  overflow:hidden;
+}
+.cover__silhouettes{
+  position:absolute; inset:0; z-index:0;
+}
+.cover__content{ position:relative; z-index:2; width:100%; max-width:1100px; margin:0 auto; }
+.cover__kicker{
+  font-family:var(--sans); font-size:.72rem; letter-spacing:.16em; color:#cbb9c2; margin-bottom:1.2rem;
+}
+.cover__title{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:clamp(2.6rem, 8vw, 5rem);
+  line-height:1.04;
+  margin:0 0 2.4rem;
+  max-width:11ch;
+}
+.cover__title span{
+  background:#0000; 
+  display:inline-block;
+}
+.cover__title .hi{
+  background:#fff; color:#000; padding:0 .2rem;
+  box-decoration-break:clone; -webkit-box-decoration-break:clone;
+}
+.cover__tag{
+  font-family:var(--sans);
+  font-size:.68rem;
+  letter-spacing:.03em;
+  color:#0a0a0a;
+  background:var(--wine-bright);
+  display:inline-block;
+  padding:.55rem .7rem;
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+  border-left:3px solid #fff;
+}
+.cover__scroll{
+  position:absolute; bottom:1.6rem; left:50%; transform:translateX(-50%);
+  font-family:var(--sans); font-size:.65rem; letter-spacing:.14em; color:#cbb9c2;
+  display:flex; flex-direction:column; align-items:center; gap:.5rem;
+  z-index:2;
+}
+.cover__scroll i{
+  width:1px; height:34px; background:linear-gradient(#cbb9c2, transparent);
+  display:block; animation:scrollhint 1.8s ease-in-out infinite;
+}
+@keyframes scrollhint{ 0%,100%{opacity:.25;} 50%{opacity:1;} }
+@media (prefers-reduced-motion: reduce){ .cover__scroll i{animation:none;} }
+
+/* ---------- flow diagram ---------- */
+.flow{ display:flex; flex-direction:column; gap:0; margin:2.4rem 0 0; }
+.flow__node{
+  font-family:var(--serif); font-size:1.02rem; line-height:1.4;
+  background:var(--wine); color:#fff;
+  padding:.85rem 1.1rem;
+  max-width:34ch;
+}
+.flow__node--soft{ background:var(--cream); color:var(--ink); font-style:italic; }
+.flow__connector{
+  width:1px; height:28px; background:var(--grey); margin-left:1.4rem;
+}
+
+/* ---------- stat / definition callouts ---------- */
+.callout{
+  border-left:3px solid var(--wine-bright);
+  padding-left:1.1rem;
+  font-style:italic;
+  font-size:1.05rem;
+  line-height:1.5;
+  margin:1.6rem 0;
+  max-width:52ch;
+}
+.bio{
+  font-family:var(--sans);
+  font-size:.78rem;
+  line-height:1.55;
+  color:var(--grey);
+  border-left:1px solid #444;
+  padding-left:1rem;
+  max-width:40ch;
+  margin-top:1rem;
+}
+.chapter--light .bio{ border-left-color:#ccc; }
+
+/* ---------- donut chart ---------- */
+.donut-wrap{
+  display:flex; flex-wrap:wrap; align-items:center; gap:2.6rem;
+  margin-top:2.4rem;
+}
+.donut{ width:230px; height:230px; flex:none; }
+.donut svg{ width:100%; height:100%; display:block; transform:rotate(-90deg); }
+.donut circle{ fill:none; stroke-width:26; }
+.donut .bg{ stroke:#232323; }
+.donut .seg{
+  stroke-dasharray: 0 566;
+  transition: stroke-dasharray 1.4s cubic-bezier(.2,.8,.2,1);
+}
+.donut-center{
+  position:relative;
+}
+.donut-legend{ display:flex; flex-direction:column; gap:1.1rem; font-family:var(--sans); }
+.legend-item{ display:flex; align-items:baseline; gap:.6rem; }
+.legend-swatch{ width:10px; height:10px; border-radius:50%; flex:none; margin-bottom:2px; }
+.legend-value{ font-size:2rem; font-weight:600; }
+.legend-name{ font-family:var(--sans); font-size:.78rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; align-self:center; }
+.legend-label{ font-size:.78rem; letter-spacing:.06em; color:#c9bfc4; }
+.legend-desc{ font-family:var(--serif); font-size:.98rem; font-style:italic; color:#d8d0d3; max-width:32ch; margin:.15rem 0 0 1.6rem; }
+
+/* ---------- stacked evolution bars ---------- */
+.ev-groups{ display:flex; flex-direction:column; gap:1.5rem; margin-top:2rem; }
+.ev-row{ display:grid; grid-template-columns:8.5rem 1fr; align-items:center; gap:1rem; }
+.ev-label{ font-family:var(--sans); font-size:.78rem; color:#cfc6ca; }
+.ev-bar{ position:relative; height:38px; background:#1c1c1c; overflow:hidden; }
+.ev-seg{ position:absolute; top:0; bottom:0; width:0%; display:flex; align-items:center; font-family:var(--sans); font-size:.78rem; font-weight:600; color:#fff; transition:width 1.2s cubic-bezier(.2,.8,.2,1); }
+.ev-seg span{ padding:0 .6rem; white-space:nowrap; }
+.ev-seg.interno{ left:0; background:var(--rose); justify-content:flex-start; }
+.ev-seg.externo{ right:0; background:var(--teal); justify-content:flex-end; }
+
+/* ---------- grouped bars ---------- */
+.gbar-wrap{ margin-top:2rem; }
+.gbar-legend{ display:flex; gap:1.2rem; flex-wrap:wrap; font-family:var(--sans); font-size:.72rem; letter-spacing:.04em; color:#cfc6ca; margin-bottom:1.3rem; }
+.gbar-legend i{ display:inline-block; width:9px; height:9px; margin-right:.4rem; vertical-align:middle; }
+.gbar-groups{ display:flex; gap:1.6rem; align-items:flex-end; }
+.gbar-group{ flex:1; text-align:center; }
+.gbar-axis{ display:flex; align-items:flex-end; justify-content:center; gap:.4rem; height:190px; }
+.gbar{ width:20%; background:#333; position:relative; height:0%; transition:height 1.1s cubic-bezier(.2,.8,.2,1); }
+.gbar .val{ position:absolute; bottom:100%; left:50%; transform:translateX(-50%); font-family:var(--sans); font-size:.66rem; font-weight:600; white-space:nowrap; margin-bottom:.25rem; }
+.gbar-group-name{ font-family:var(--sans); font-size:.7rem; color:#cfc6ca; margin-top:.8rem; letter-spacing:.02em; max-width:9rem; margin-left:auto; margin-right:auto; }
+
+/* ---------- verification table ---------- */
+.vtable{ width:100%; border-collapse:collapse; font-family:var(--sans); font-size:.86rem; margin-top:1.8rem; }
+.vtable caption{ text-align:left; font-family:var(--serif); font-style:italic; font-size:1.05rem; margin-bottom:.9rem; caption-side:top; }
+.vtable th,.vtable td{ padding:.55rem .7rem; text-align:right; border-bottom:1px solid #e6dde1; }
+.vtable th:first-child,.vtable td:first-child{ text-align:left; }
+.vtable thead th{ font-weight:600; color:var(--ink); border-bottom:2px solid var(--ink); }
+.vtable tr.highlight td{ background:var(--cream); font-weight:600; }
+.vtable tfoot td{ font-weight:700; border-bottom:none; border-top:2px solid var(--ink); }
+
+/* horizontal bars */
+.hbar-list{ display:flex; flex-direction:column; gap:1.1rem; margin-top:2rem; }
+.hbar-row{ display:grid; grid-template-columns:13rem 1fr; gap:1rem; align-items:center; }
+.hbar-name{ font-family:var(--sans); font-size:.8rem; color:#3a3a3a; }
+.hbar-track{ display:flex; flex-direction:column; gap:.3rem; }
+.hbar-line{ display:flex; align-items:center; gap:.5rem; }
+.hbar-fill{ height:11px; width:0%; transition:width 1.1s cubic-bezier(.2,.8,.2,1); }
+.hbar-fill.externo{ background:var(--teal); }
+.hbar-fill.interno{ background:var(--rose); }
+.hbar-pct{ font-family:var(--sans); font-size:.7rem; color:#3a3a3a; min-width:3.6rem; }
+.hbar-legend{ display:flex; gap:1.2rem; font-family:var(--sans); font-size:.72rem; color:#3a3a3a; margin-top:1.6rem; }
+.hbar-legend i{ display:inline-block; width:9px; height:9px; margin-right:.4rem; vertical-align:middle; }
+
+/* ---------- inference cards ---------- */
+.infer{ display:grid; gap:1rem; margin-top:1.8rem; grid-template-columns:1fr; }
+@media(min-width:640px){ .infer{ grid-template-columns:1fr 1fr; } }
+.infer div{ padding:1.1rem 1.2rem; background:#141414; border-top:3px solid var(--teal); font-family:var(--serif); font-size:.98rem; line-height:1.45; }
+.infer div:last-child{ border-top-color:var(--rose); }
+.infer b{ font-family:var(--sans); font-size:.7rem; letter-spacing:.04em; display:block; margin-bottom:.5rem; text-transform:none; color:#ddd; }
+
+/* ---------- conclusions ---------- */
+.conclusions{ counter-reset:c; display:flex; flex-direction:column; gap:1.5rem; margin-top:1.6rem; }
+.conclusions li{ list-style:none; display:grid; grid-template-columns:2.4rem 1fr; gap:.9rem; }
+.conclusions li::before{
+  counter-increment:c; content:counter(c);
+  font-family:var(--sans); font-size:1.1rem; font-weight:600;
+  color:#f2c7d6;
+}
+.conclusions p{ margin:0; font-size:1.05rem; line-height:1.5; }
+
+/* ---------- references / tools ---------- */
+.refs{ display:grid; gap:2.2rem; margin-top:2rem; grid-template-columns:1fr; }
+@media(min-width:720px){ .refs{ grid-template-columns:1fr 1fr; } }
+.ref-block h3, .tool-block h3{
+  font-family:var(--sans); font-size:.72rem; letter-spacing:.1em; color:var(--wine-bright);
+  margin:0 0 1rem;
+}
+.chapter--dark .ref-block h3, .chapter--dark .tool-block h3{ color:#e9a9c1; }
+.ref-item{ font-size:.95rem; line-height:1.5; margin-bottom:1.1rem; color:#d8d0d3; }
+.ref-item a{ color:inherit; }
+.tool-item{ font-size:1rem; margin-bottom:1rem; }
+.tool-item span{ display:block; font-family:var(--sans); font-size:.72rem; letter-spacing:.04em; color:#c9bfc4; margin-bottom:.15rem; }
+.tool-item em{ font-style:italic; }
+
+/* ---------- closing ---------- */
+.closing{
+  min-height:70svh; background:#000; color:#fff;
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  padding:4rem 1.5rem;
+}
+.closing__title{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:clamp(2rem, 6vw, 3.4rem); line-height:1.15; max-width:14ch;
+}
+.closing__foot{ font-family:var(--sans); font-size:.7rem; letter-spacing:.1em; color:#8f8a8d; margin-top:2rem; }
+
+@media (max-width:640px){
+  .chapter{ padding:4.5rem 1.2rem; }
+  .ev-row{ grid-template-columns:1fr; }
+  .hbar-row{ grid-template-columns:1fr; }
+  .gbar-groups{ gap:.8rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress"><div class="progress__bar" id="progressBar"></div></div>
+
+<!-- COVER -->
+<section class="cover">
+  <div class="cover__silhouettes" aria-hidden="true">
+    <svg viewBox="0 0 1100 900" preserveAspectRatio="xMaxYMid slice" style="width:100%;height:100%;">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#8f2f63"/>
+          <stop offset="1" stop-color="#3c0f28"/>
+        </linearGradient>
+        <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#a83a70"/>
+          <stop offset="1" stop-color="#4a1330"/>
+        </linearGradient>
+      </defs>
+      <g opacity="0.9">
+        <circle cx="980" cy="120" r="150" fill="url(#g1)"/>
+        <circle cx="1080" cy="330" r="170" fill="url(#g2)"/>
+        <circle cx="960" cy="520" r="160" fill="url(#g1)"/>
+        <circle cx="1090" cy="710" r="180" fill="url(#g2)"/>
+        <circle cx="940" cy="880" r="150" fill="url(#g1)"/>
+      </g>
+      <g fill="#1a0812" opacity="0.55">
+        <circle cx="960" cy="80" r="46"/>
+        <circle cx="1060" cy="290" r="52"/>
+        <circle cx="940" cy="480" r="48"/>
+        <circle cx="1070" cy="670" r="54"/>
+        <circle cx="920" cy="840" r="46"/>
+      </g>
+    </svg>
+  </div>
+  <div class="cover__content">
+    <p class="cover__kicker">REPORTE DE INVESTIGACIÓN — AUDIENCIAS Y ALGORITMOS</p>
+    <h1 class="cover__title">¿Quién tiene el <span class="hi">control</span>: vos o el algoritmo?</h1>
+    <span class="cover__tag">IF(audiencias &amp;&amp; algoritmos, control = "?")</span>
+  </div>
+  <div class="cover__scroll"><i></i>SCROLL</div>
+</section>
+
+<!-- CONTEXT -->
+<section class="chapter chapter--dark" id="context">
+  <div class="frame">
+    <p class="eyebrow reveal">Punto de partida</p>
+    <p class="lede reveal reveal-d1">El consumo incidental de noticias mediante algoritmos de redes sociales es la
+      <span class="mark mark--wine">vía principal de acceso informativo</span>, especialmente entre los usuarios más
+      jóvenes y conectados.</p>
+    <p class="cite reveal reveal-d2">MITCHELSTEIN &amp; BOCZKOWSKI, 2017</p>
+    <p class="bio reveal reveal-d2">Investigadores especializados en la interacción entre la vida digital, la
+      comunicación y las prácticas sociales.</p>
+  </div>
+</section>
+
+<!-- QUESTION / FLOW -->
+<section class="chapter chapter--light" id="question">
+  <div class="frame">
+    <p class="eyebrow reveal">La pregunta</p>
+    <p class="lede reveal reveal-d1" style="color:var(--ink)">Diversos estudios abordan nuestro vínculo con los
+      algoritmos, <em>pero...</em></p>
+    <div class="flow reveal reveal-d2">
+      <div class="flow__node">¿Cómo perciben este vínculo aquellos con conocimientos especializados en medios?</div>
+      <div class="flow__connector"></div>
+      <div class="flow__node flow__node--soft">¿En qué medida influyen estos conocimientos en la percepción sobre
+        los algoritmos?</div>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD -->
+<section class="chapter chapter--dark" id="method">
+  <div class="frame">
+    <p class="eyebrow reveal">Metodología</p>
+    <h2 class="chapter-title reveal reveal-d1">Jóvenes de 18–25 años que se informan de manera incidental por redes
+      sociales <span style="font-style:italic; font-size:.7em; opacity:.7;">(Instagram, TikTok y X)</span></h2>
+    <p class="lede reveal reveal-d2">Para abordar estos interrogantes, se encuestó a
+      <span class="mark mark--wine">155 estudiantes</span> de Comunicación (UBA) y se aplicó un
+      <span class="mark">locus de control</span>.</p>
+    <div class="callout reveal reveal-d3">Concepto que representa en qué medida una persona atribuye los
+      acontecimientos a sus propias acciones o a factores externos.</div>
+    <p class="cite reveal reveal-d3">DE GRANDE, 2014</p>
+    <p class="bio reveal reveal-d3">Doctor en Ciencias Sociales y Humanidades. Investigador y profesor adjunto de la
+      Facultad de Ciencias Sociales, Universidad del Salvador, Buenos Aires, Argentina.</p>
+  </div>
+</section>
+
+<!-- LOCUS DONUT -->
+<section class="chapter chapter--dark" id="locus">
+  <div class="frame frame--wide">
+    <p class="eyebrow reveal">Hallazgo 1 — Percepción general</p>
+    <h2 class="chapter-title reveal reveal-d1">La mayoría se percibe al mando de lo que ve</h2>
+    <div class="donut-wrap reveal reveal-d2" id="donutWrap">
+      <div class="donut">
+        <svg viewBox="0 0 200 200">
+          <circle class="bg" cx="100" cy="100" r="80"></circle>
+          <circle class="seg" id="segInterno" cx="100" cy="100" r="80" stroke="#a13853"></circle>
+          <circle class="seg" id="segExterno" cx="100" cy="100" r="80" stroke="#3e6f64"></circle>
+        </svg>
+      </div>
+      <div class="donut-legend">
+        <div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background:var(--rose)"></span>
+            <span class="legend-value" style="color:var(--rose)" id="valInterno">0%</span>
+            <span class="legend-name" style="color:var(--rose)">Locus interno</span>
+          </div>
+          <p class="legend-desc">Se perciben capaces de influir activamente en el proceso de selección algorítmica,
+            para así recibir el contenido deseado.</p>
+        </div>
+        <div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background:var(--teal)"></span>
+            <span class="legend-value" style="color:var(--teal-bright)" id="valExterno">0%</span>
+            <span class="legend-name" style="color:var(--teal-bright)">Locus externo</span>
+          </div>
+          <p class="legend-desc">Describe a quienes perciben el proceso de selección algorítmica de contenidos
+            como mayormente autónomo y ajeno a sus propias acciones.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVOLUTION -->
+<section class="chapter chapter--dark" id="evolution">
+  <div class="frame frame--wide">
+    <p class="eyebrow reveal">Hallazgo 2 — Trayectoria académica</p>
+    <h2 class="chapter-title reveal reveal-d1">A mayor avance académico, <span class="mark mark--rose">disminuye el
+      locus interno</span> — aunque sin perder prevalencia</h2>
+    <div class="ev-groups reveal reveal-d2" id="evGroups">
+      <div class="ev-row">
+        <span class="ev-label">Hasta 6 materias</span>
+        <div class="ev-bar"><div class="ev-seg interno" data-w="73.08"><span>73,08%</span></div><div class="ev-seg externo" data-w="26.92"><span>26,92%</span></div></div>
+      </div>
+      <div class="ev-row">
+        <span class="ev-label">Entre 7 y 20 materias</span>
+        <div class="ev-bar"><div class="ev-seg interno" data-w="61.29"><span>61,29%</span></div><div class="ev-seg externo" data-w="38.71"><span>38,71%</span></div></div>
+      </div>
+      <div class="ev-row">
+        <span class="ev-label">Más de 20 materias</span>
+        <div class="ev-bar"><div class="ev-seg interno" data-w="56.10"><span>56,10%</span></div><div class="ev-seg externo" data-w="43.90"><span>43,90%</span></div></div>
+      </div>
+    </div>
+    <p class="lede reveal reveal-d3" style="margin-top:2rem; font-size:1.05rem;">Así, la
+      <span class="mark mark--teal">experiencia académica</span> da lugar a una visión menos maleable sobre los
+      algoritmos.</p>
+  </div>
+</section>
+
+<!-- INTEREST + VERACITY -->
+<section class="chapter chapter--dark" id="interest">
+  <div class="frame frame--wide">
+    <p class="eyebrow reveal">Hallazgo 3 — Interés y atención a la veracidad</p>
+    <h2 class="chapter-title reveal reveal-d1">Conforme avanza la carrera, crece el interés y la atención a la
+      veracidad de las noticias</h2>
+
+    <p class="lede reveal reveal-d2" style="font-size:1rem; margin-top:2.2rem;">Evolución del nivel de interés por
+      las noticias, según avance académico</p>
+    <div class="gbar-wrap reveal reveal-d2">
+      <div class="gbar-legend">
+        <span><i style="background:#6f8ca0"></i>Algo</span>
+        <span><i style="background:#fff"></i>Mucho</span>
+        <span><i style="background:#3e6f64"></i>Nada</span>
+        <span><i style="background:#a13853"></i>Poco</span>
+      </div>
+      <div class="gbar-groups" id="chartInterest">
+        <div class="gbar-group">
+          <div class="gbar-axis">
+            <div class="gbar" style="background:#6f8ca0" data-h="23.08"><span class="val">23,08%</span></div>
+            <div class="gbar" style="background:#fff" data-h="48.08"><span class="val" style="color:#fff">48,08%</span></div>
+            <div class="gbar" style="background:#3e6f64" data-h="1.92"><span class="val">1,92%</span></div>
+            <div class="gbar" style="background:#a13853" data-h="26.92"><span class="val">26,92%</span></div>
+          </div>
+          <p class="gbar-group-name">a. Hasta 6 materias</p>
+        </div>
+        <div class="gbar-group">
+          <div class="gbar-axis">
+            <div class="gbar" style="background:#6f8ca0" data-h="29.03"><span class="val">29,03%</span></div>
+            <div class="gbar" style="background:#fff" data-h="59.68"><span class="val" style="color:#fff">59,68%</span></div>
+            <div class="gbar" style="background:#3e6f64" data-h="0"><span class="val">0%</span></div>
+            <div class="gbar" style="background:#a13853" data-h="11.29"><span class="val">11,29%</span></div>
+          </div>
+          <p class="gbar-group-name">b. Entre 7 y 20 materias</p>
+        </div>
+        <div class="gbar-group">
+          <div class="gbar-axis">
+            <div class="gbar" style="background:#6f8ca0" data-h="19.51"><span class="val">19,51%</span></div>
+            <div class="gbar" style="background:#fff" data-h="68.29"><span class="val" style="color:#fff">68,29%</span></div>
+            <div class="gbar" style="background:#3e6f64" data-h="0"><span class="val">0%</span></div>
+            <div class="gbar" style="background:#a13853" data-h="12.20"><span class="val">12,20%</span></div>
+          </div>
+          <p class="gbar-group-name">c. Más de 20 materias</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="cite reveal reveal-d3" style="margin-top:1.6rem;">Independientemente del avance académico, el "Mucho"
+      interés es mayoritario en ambos tipos de locus — interno: 56,57% · externo: 60,71%</p>
+
+    <p class="lede reveal reveal-d3" style="font-size:1rem; margin-top:2.6rem;">Evolución del nivel de atención a
+      la veracidad de las noticias, según avance académico</p>
+    <div class="gbar-wrap reveal reveal-d3">
+      <div class="gbar-groups" id="chartVeracity">
+        <div class="gbar-group">
+          <div class="gbar-axis">
+            <div class="gbar" style="background:#6f8ca0" data-h="25.00"><span class="val">25,00%</span></div>
+            <div class="gbar" style="background:#fff" data-h="57.69"><span class="val" style="color:#fff">57,69%</span></div>
+            <div class="gbar" style="background:#3e6f64" data-h="1.92"><span class="val">1,92%</span></div>
+            <div class="gbar" style="background:#a13853" data-h="15.38"><span class="val">15,38%</span></div>
+          </div>
+          <p class="gbar-group-name">a. Hasta 6 materias</p>
+        </div>
+        <div class="gbar-group">
+          <div class="gbar-axis">
+            <div class="gbar" style="background:#6f8ca0" data-h="20.97"><span class="val">20,97%</span></div>
+            <div class="gbar" style="background:#fff" data-h="67.74"><span class="val" style="color:#fff">67,74%</span></div>
+            <div class="gbar" style="background:#3e6f64" data-h="1.61"><span class="val">1,61%</span></div>
+            <div class="gbar" style="background:#a13853" data-h="9.68"><span class="val">9,68%</span></div>
+          </div>
+          <p class="gbar-group-name">b. Entre 7 y 20 materias</p>
+        </div>
+        <div class="gbar-group">
+          <div class="gbar-axis">
+            <div class="gbar" style="background:#6f8ca0" data-h="12.20"><span class="val">12,20%</span></div>
+            <div class="gbar" style="background:#fff" data-h="78.05"><span class="val" style="color:#fff">78,05%</span></div>
+            <div class="gbar" style="background:#3e6f64" data-h="2.44"><span class="val">2,44%</span></div>
+            <div class="gbar" style="background:#a13853" data-h="7.32"><span class="val">7,32%</span></div>
+          </div>
+          <p class="gbar-group-name">c. Más de 20 materias</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VERIFICATION -->
+<section class="chapter chapter--light" id="verification">
+  <div class="frame frame--wide">
+    <p class="eyebrow reveal" style="color:var(--wine)">Hallazgo 4 — Verificación de la información</p>
+    <h2 class="chapter-title reveal reveal-d1" style="color:var(--ink)">La elevada atención a la veracidad es
+      mayoritaria en ambos tipos de locus</h2>
+
+    <table class="vtable reveal reveal-d2">
+      <caption>¿Estás atentx a si una noticia es real o falsa cuando te llega por redes sociales?</caption>
+      <thead>
+        <tr><th>Nivel de atención</th><th>Externo</th><th>Interno</th><th>Total</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Algo</td><td>21,43%</td><td>19,19%</td><td>20,00%</td></tr>
+        <tr class="highlight"><td>Mucho</td><td>67,86%</td><td>66,67%</td><td>67,10%</td></tr>
+        <tr><td>Nada</td><td>3,57%</td><td>1,01%</td><td>1,94%</td></tr>
+        <tr><td>Poco</td><td>7,14%</td><td>13,13%</td><td>10,97%</td></tr>
+      </tbody>
+      <tfoot><tr><td>Total</td><td>100,00%</td><td>100,00%</td><td>100,00%</td></tr></tfoot>
+    </table>
+
+    <p class="lede reveal reveal-d2" style="color:var(--ink); margin-top:2.2rem;">Esto se correlaciona con una
+      preferencia prevalente por <span class="mark mark--wine">sitios externos a los algoritmos de redes</span>
+      como lugares de verificación de la verdad.</p>
+
+    <div class="hbar-legend reveal reveal-d3">
+      <span><i style="background:var(--teal)"></i>Externo</span>
+      <span><i style="background:var(--rose)"></i>Interno</span>
+    </div>
+    <div class="hbar-list reveal reveal-d3" id="chartMethods">
+      <div class="hbar-row">
+        <span class="hbar-name">Reviso en portales de noticias</span>
+        <div class="hbar-track">
+          <div class="hbar-line"><div class="hbar-fill externo" data-w="60.71"></div><span class="hbar-pct">60,71%</span></div>
+          <div class="hbar-line"><div class="hbar-fill interno" data-w="61.62"></div><span class="hbar-pct">61,62%</span></div>
+        </div>
+      </div>
+      <div class="hbar-row">
+        <span class="hbar-name">Reviso más profundamente en redes sociales</span>
+        <div class="hbar-track">
+          <div class="hbar-line"><div class="hbar-fill externo" data-w="28.57"></div><span class="hbar-pct">28,57%</span></div>
+          <div class="hbar-line"><div class="hbar-fill interno" data-w="25.25"></div><span class="hbar-pct">25,25%</span></div>
+        </div>
+      </div>
+      <div class="hbar-row">
+        <span class="hbar-name">Le pregunto a un conocido</span>
+        <div class="hbar-track">
+          <div class="hbar-line"><div class="hbar-fill externo" data-w="7.14"></div><span class="hbar-pct">7,14%</span></div>
+          <div class="hbar-line"><div class="hbar-fill interno" data-w="5.05"></div><span class="hbar-pct">5,05%</span></div>
+        </div>
+      </div>
+      <div class="hbar-row">
+        <span class="hbar-name">Contrasto con inteligencia artificial</span>
+        <div class="hbar-track">
+          <div class="hbar-line"><div class="hbar-fill externo" data-w="1.79"></div><span class="hbar-pct">1,79%</span></div>
+          <div class="hbar-line"><div class="hbar-fill interno" data-w="3.03"></div><span class="hbar-pct">3,03%</span></div>
+        </div>
+      </div>
+      <div class="hbar-row">
+        <span class="hbar-name">No la chequeo</span>
+        <div class="hbar-track">
+          <div class="hbar-line"><div class="hbar-fill externo" data-w="0"></div><span class="hbar-pct">0%</span></div>
+          <div class="hbar-line"><div class="hbar-fill interno" data-w="2.02"></div><span class="hbar-pct">2,02%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="eyebrow reveal reveal-d3" style="margin-top:2.4rem; color:var(--wine);">Esta actitud vigilante
+      permite inferir que...</p>
+    <div class="infer reveal reveal-d3" style="margin-top:0;">
+      <div style="background:var(--teal); color:#fff; border-top-color:transparent;">
+        <b>EN QUIENES TIENEN LOCUS EXTERNO</b>
+        Compensa la percepción de falta de control frente al sistema algorítmico.
+      </div>
+      <div style="background:var(--rose); color:#fff; border-top-color:transparent;">
+        <b>EN QUIENES TIENEN LOCUS INTERNO</b>
+        Refuerza su percepción de dominio sobre dicho sistema.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCLUSIONS -->
+<section class="chapter chapter--wine" id="conclusions">
+  <div class="frame frame--wide">
+    <p class="eyebrow reveal">En conclusión</p>
+    <ol class="conclusions reveal reveal-d1">
+      <li><p>La mayoría de estudiantes percibe controlar el proceso de recomendación algorítmica de contenidos
+        (locus interno).</p></li>
+      <li><p>Con el avance académico, se incrementa el locus externo, dando lugar a una visión menos manipulable
+        sobre los algoritmos.</p></li>
+      <li><p>Lo anterior se correlaciona con un incremento progresivo de elevados niveles de interés en las
+        noticias y atención a la veracidad.</p></li>
+      <li><p>Independientemente del tipo de locus y la cantidad de materias aprobadas, tales niveles de interés y
+        atención son significativamente altos.</p></li>
+      <li><p>Esto se vincula con una preferencia generalizada por sitios externos a los algoritmos de redes
+        sociales para verificar información (portales de noticias).</p></li>
+      <li><p>Esta actitud vigilante sugiere compensar la falta de control percibido en aquellos con locus externo,
+        y reforzar el dominio percibido en quienes presentan locus interno.</p></li>
+      <li><p>De este modo, percibir dominar los algoritmos para obtener el contenido deseado no implica una
+        confianza "ciega" hacia los contenidos efectivamente recibidos.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- REFERENCES & TOOLS -->
+<section class="chapter chapter--dark" id="references">
+  <div class="frame frame--wide">
+    <div class="refs">
+      <div class="ref-block reveal">
+        <h3>Referencias bibliográficas</h3>
+        <p class="ref-item">De Grande, P. (2014). Reflexiones sobre la interpretación del concepto de locus de
+          control en investigación social. <em>PensandoPsicología, 10</em>(17), 127–134.<br>
+          DOI: <a href="http://dx.doi.org/10.16925/pe.v10i17.795">10.16925/pe.v10i17.795</a></p>
+        <p class="ref-item">Mitchelstein, E., &amp; Boczkowski, P. J. (2017). Juventud, estatus y conexiones.
+          Explicación del consumo incidental de noticias en redes sociales. <em>Revista Mexicana de Opinión
+          Pública</em>, (24), 131–145.</p>
+      </div>
+      <div class="tool-block reveal reveal-d1">
+        <h3>Herramientas utilizadas</h3>
+        <p class="tool-item"><span>Análisis y visualización de datos</span><em>Microsoft Power BI</em></p>
+        <p class="tool-item"><span>Diseño de storytelling</span><em>Adobe Photoshop</em></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<footer class="closing">
+  <div>
+    <p class="closing__title">¿Quién tiene el control: vos o el algoritmo?</p>
+    <p class="closing__foot">JOSÉ MARIO SANDOVAL · INVESTIGACIÓN DE AUDIENCIAS</p>
+  </div>
+</footer>
+
+<script>
+// scroll progress
+const bar = document.getElementById('progressBar');
+function updateProgress(){
+  const h = document.documentElement;
+  const scrolled = h.scrollTop;
+  const height = h.scrollHeight - h.clientHeight;
+  bar.style.width = (height > 0 ? (scrolled/height)*100 : 0) + '%';
+}
+document.addEventListener('scroll', updateProgress, {passive:true});
+updateProgress();
+
+// reveal on scroll
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+}, { threshold:0.18 });
+revealEls.forEach(el=>io.observe(el));
+
+// donut chart animation
+const donutWrap = document.getElementById('donutWrap');
+const CIRC = 2*Math.PI*80; // ~502.65
+function animateDonut(){
+  const interno = 63.87, externo = 36.13;
+  const dashInterno = (interno/100)*CIRC;
+  const dashExterno = (externo/100)*CIRC;
+  const segInterno = document.getElementById('segInterno');
+  const segExterno = document.getElementById('segExterno');
+  segInterno.style.strokeDasharray = dashInterno + ' ' + CIRC;
+  segExterno.style.strokeDasharray = dashExterno + ' ' + CIRC;
+  segExterno.style.strokeDashoffset = -dashInterno;
+  countUp(document.getElementById('valInterno'), interno);
+  countUp(document.getElementById('valExterno'), externo);
+}
+function countUp(el, target){
+  const dur = 1200; const start = performance.now();
+  function step(t){
+    const p = Math.min(1, (t-start)/dur);
+    el.textContent = (target*p).toFixed(2).replace('.', ',') + '%';
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+const donutIO = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ animateDonut(); donutIO.disconnect(); } });
+}, {threshold:0.4});
+donutIO.observe(donutWrap);
+
+// generic bar animators: ev-seg, gbar, hbar-fill
+function animateBars(container, selector, prop){
+  container.querySelectorAll(selector).forEach(el=>{
+    const w = el.getAttribute('data-w') ?? el.getAttribute('data-h');
+    el.style[prop] = w + '%';
+  });
+}
+function observeBars(id, selector, prop){
+  const el = document.getElementById(id);
+  if(!el) return;
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ animateBars(el, selector, prop); obs.disconnect(); }
+    });
+  }, {threshold:0.3});
+  obs.observe(el);
+}
+observeBars('evGroups', '.ev-seg', 'width');
+observeBars('chartInterest', '.gbar', 'height');
+observeBars('chartVeracity', '.gbar', 'height');
+observeBars('chartMethods', '.hbar-fill', 'width');
+</script>
+</body>
+</html>
