@@ -128,9 +128,9 @@ p.body-text{ font-size:1.06rem; line-height:1.65; margin:0 0 1.1rem; max-width:6
 .callout-box{ background:var(--cream); border-left:3px solid var(--wine); padding:1.2rem 1.3rem; margin:2rem 0; font-family:var(--sans); font-size:.85rem; line-height:1.6; color:#3a2530; }
 .callout-box b{ font-size:1.6rem; font-family:var(--serif); font-style:italic; display:block; color:var(--wine); margin-bottom:.3rem; }
 
-/* references */
-.refs{ display:grid; gap:1.4rem; margin-top:1.6rem; grid-template-columns:1fr; }
-.ref-item{ font-size:.92rem; line-height:1.55; color:#3a3a3a; }
+/* references — menos espaciado */
+.refs{ display:grid; gap:.7rem; margin-top:1.2rem; grid-template-columns:1fr; }
+.ref-item{ font-size:.92rem; line-height:1.45; color:#3a3a3a; margin:0; }
 .chapter--dark .ref-item{ color:#d8d0d3; }
 .ref-item a{ color:inherit; }
 
@@ -140,7 +140,8 @@ p.body-text{ font-size:1.06rem; line-height:1.65; margin:0 0 1.1rem; max-width:6
 .study-card strong{ font-family:var(--serif); font-size:1.25rem; font-weight:500; font-style:italic; color:var(--ink); }
 
 .closing{ min-height:64svh; background:#000; color:#fff; display:flex; align-items:center; justify-content:center; text-align:center; padding:4rem 1.5rem; }
-.closing__title{ font-family:var(--serif); font-style:italic; font-weight:500; font-size:clamp(1.8rem,5vw,2.8rem); line-height:1.2; max-width:20ch; }
+.closing__title{ font-family:var(--serif); font-style:italic; font-weight:500; font-size:clamp(1.8rem,5vw,2.8rem); line-height:1.2; max-width:20ch; margin:0 auto .8rem; }
+.closing__subtitle{ font-family:var(--serif); font-size:clamp(1rem,2vw,1.25rem); font-style:normal; color:#d8ccd1; max-width:42ch; line-height:1.4; margin:0 auto; }
 .closing__foot{ font-family:var(--sans); font-size:.68rem; letter-spacing:.1em; color:#8f8a8d; margin-top:2rem; }
 
 @media (max-width:640px){
@@ -180,7 +181,7 @@ p.body-text{ font-size:1.06rem; line-height:1.65; margin:0 0 1.1rem; max-width:6
   <span class="cover__tag">EJE 4 · MEDIOS Y TECNOLOGÍAS DIGITALES</span>
   <div class="cover__content">
     <p class="cover__kicker">PONENCIA — XII JORNADAS DE JÓVENES INVESTIGADORXS</p>
-    <h1 class="cover__title">Una cosa no <span class="hi">quita</span> la otra</h1>
+    <h1 class="cover__title">Una cosa <span class="hi">no quita</span> la otra</h1>
     <p class="cover__subtitle">Entre la manipulación y la agencia: consumo incidental de noticias por redes
       sociales</p>
     <p class="cover__meta">JOSÉ MARIO SANDOVAL · INSTITUTO DE INVESTIGACIONES GINO GERMANI<br>
@@ -194,16 +195,16 @@ p.body-text{ font-size:1.06rem; line-height:1.65; margin:0 0 1.1rem; max-width:6
   <div class="frame">
     <p class="eyebrow reveal">Punto de partida</p>
     <h2 class="chapter-title reveal reveal-d1">La casualidad se volvió un hábito</h2>
-    <p class="lede reveal reveal-d2">El acceso a las noticias mediante algoritmos en redes sociales se vuelve cada
-      vez más central, sobre todo entre quienes pasan más tiempo conectados.</p>
-    <p class="body-text reveal reveal-d2">Este trabajo pone en cuestión la connotación
-      <span class="mark mark--wine">absolutamente pasiva e irreflexiva</span> que suele asociarse a informarse por
-      contenido aleatorio, sin desmerecer la influencia algorítmica sobre lo visible y lo invisible en las
-      plataformas. El objetivo es mostrar cómo esa forma de informarse convive con prácticas activas: compartir,
-      comentar, discutir, dudar, indagar.</p>
-    <div class="pull reveal reveal-d3">Las audiencias son activas y, a veces, hiperactivas... pero también son
-      capaces de dispersarse y perderse en lo banal.
-      <cite>OROZCO, 1997</cite>
+    <p class="lede reveal reveal-d2">El acceso a las noticias mediante algoritmos de recomendación de redes sociales
+      se vuelve cada vez más central, sobre todo en los jóvenes que pasan más tiempo conectados.</p>
+    <p class="body-text reveal reveal-d2">Esta ponencia aborda la <span class="mark mark--wine">interacción entre
+      algoritmos y audiencias</span> desde el reconocimiento de los algoritmos y su capacidad de influir sobre lo
+      visible y lo invisible en las plataformas, y la capacidad de las audiencias para adaptarse, negociar y
+      resistir a estos procesos.</p>
+    <div class="pull reveal reveal-d3">Los análisis críticos deben interactuar significativamente con las
+      audiencias en y a través de los contextos de sus vidas. Debemos evitar el determinismo tecnológico bajo el
+      supuesto de que las personas no siempre se alinean obedientemente con las respuestas que se suponen de ellas.
+      <cite>LIVINGSTONE, 2019</cite>
     </div>
   </div>
 </section>
@@ -213,27 +214,35 @@ p.body-text{ font-size:1.06rem; line-height:1.65; margin:0 0 1.1rem; max-width:6
   <div class="frame frame--wide">
     <p class="eyebrow reveal">La muestra</p>
     <h2 class="chapter-title reveal reveal-d1">Estudiantes de Comunicación (UBA), 18 a 25 años</h2>
-    <p class="body-text reveal reveal-d2">Estudio exploratorio realizado en la materia Audiencias sobre hábitos
-      informativos, con <span class="mark mark--wine">125 estudiantes</span> encuestados y entrevistas en
-      profundidad.</p>
+    <p class="body-text reveal reveal-d2">Estudio exploratorio realizado en la materia Audiencias y Recepción sobre
+      hábitos informativos, con <span class="mark mark--wine">234 estudiantes</span> encuestados y 20 entrevistas
+      en profundidad.</p>
     <div class="donut-wrap reveal reveal-d3" id="donutAge">
       <div class="donut">
         <svg viewBox="0 0 200 200">
           <circle class="bg" cx="100" cy="100" r="80"></circle>
           <circle class="seg" id="segAge1" cx="100" cy="100" r="80" stroke="#7d1f49"></circle>
           <circle class="seg" id="segAge2" cx="100" cy="100" r="80" stroke="#3e6f64"></circle>
+          <circle class="seg" id="segAge3" cx="100" cy="100" r="80" stroke="#a35a76"></circle>
+          <circle class="seg" id="segAge4" cx="100" cy="100" r="80" stroke="#d8ccd1"></circle>
         </svg>
       </div>
       <div class="donut-legend">
         <div class="legend-item"><span class="legend-swatch" style="background:#7d1f49"></span>
           <span class="legend-value" style="color:#7d1f49" id="valAge1">0%</span></div>
-        <p class="legend-label" style="margin:-.4rem 0 .6rem 1.4rem;">103 personas — 18 a 25 años</p>
+        <p class="legend-label" style="margin:-.4rem 0 .6rem 1.4rem;">18 a 25 años</p>
         <div class="legend-item"><span class="legend-swatch" style="background:#3e6f64"></span>
           <span class="legend-value" style="color:#3e6f64" id="valAge2">0%</span></div>
-        <p class="legend-label" style="margin:-.4rem 0 0 1.4rem;">22 personas — 26 a 35 años</p>
+        <p class="legend-label" style="margin:-.4rem 0 .6rem 1.4rem;">26 a 35 años</p>
+        <div class="legend-item"><span class="legend-swatch" style="background:#a35a76"></span>
+          <span class="legend-value" style="color:#a35a76" id="valAge3">0%</span></div>
+        <p class="legend-label" style="margin:-.4rem 0 .6rem 1.4rem;">36 a 45 años</p>
+        <div class="legend-item"><span class="legend-swatch" style="background:#b7abb0"></span>
+          <span class="legend-value" style="color:#8f8a8d" id="valAge4">0%</span></div>
+        <p class="legend-label" style="margin:-.4rem 0 0 1.4rem;">45 años o más</p>
       </div>
     </div>
-    <p class="cite reveal reveal-d3" style="margin-top:1rem;">GRÁFICO 0.1 · DISTRIBUCIÓN DE LA MUESTRA SEGÚN EDAD · N=125</p>
+    <p class="cite reveal reveal-d3" style="margin-top:1rem;">GRÁFICO 0.1 · DISTRIBUCIÓN DE LA MUESTRA SEGÚN EDAD · N=234</p>
   </div>
 </section>
 
@@ -242,7 +251,7 @@ p.body-text{ font-size:1.06rem; line-height:1.65; margin:0 0 1.1rem; max-width:6
   <div class="frame frame--wide">
     <p class="eyebrow reveal">Algoritmo, agencia y dialéctica</p>
     <div class="callout-box reveal reveal-d1">
-      <b>82,40%</b>
+      <b>75,2%</b>
       de los estudiantes de 18 a 25 años se informa mediante noticias que aparecen aleatoriamente por redes
       sociales.
     </div>
@@ -255,11 +264,11 @@ p.body-text{ font-size:1.06rem; line-height:1.65; margin:0 0 1.1rem; max-width:6
       la veracidad de las noticias que llegan por redes sociales o mensajería directa</p>
     <div class="sbar-list reveal reveal-d2" id="chartVer1">
       <div class="sbar-row"><span class="sbar-name">Mucho</span>
-        <div class="sbar-track"><div class="sbar-fill" style="background:var(--rose)" data-w="63.11"><span>63,11%</span></div></div></div>
+        <div class="sbar-track"><div class="sbar-fill" style="background:var(--rose)" data-w="63.1"><span>63,1%</span></div></div></div>
       <div class="sbar-row"><span class="sbar-name">Algo</span>
-        <div class="sbar-track"><div class="sbar-fill" style="background:#734a5c" data-w="33.98"><span>33,98%</span></div></div></div>
+        <div class="sbar-track"><div class="sbar-fill" style="background:#734a5c" data-w="34.0"><span>34,0%</span></div></div></div>
       <div class="sbar-row"><span class="sbar-name">Nada</span>
-        <div class="sbar-track"><div class="sbar-fill" style="background:#3e2530" data-w="2.91"><span>2,91%</span></div></div></div>
+        <div class="sbar-track"><div class="sbar-fill" style="background:#3e2530" data-w="2.9"><span>2,9%</span></div></div></div>
     </div>
     <p class="cite reveal reveal-d2" style="margin-top:.8rem;">GRÁFICO 0.2 · ATENCIÓN A LA VERACIDAD — RR.SS / MENSAJERÍA</p>
 
@@ -272,11 +281,11 @@ p.body-text{ font-size:1.06rem; line-height:1.65; margin:0 0 1.1rem; max-width:6
       veracidad de las noticias leídas en portales informativos</p>
     <div class="sbar-list reveal reveal-d3" id="chartVer2">
       <div class="sbar-row"><span class="sbar-name">Algo</span>
-        <div class="sbar-track"><div class="sbar-fill" style="background:var(--rose)" data-w="44.66"><span>44,66%</span></div></div></div>
+        <div class="sbar-track"><div class="sbar-fill" style="background:var(--rose)" data-w="44.7"><span>44,7%</span></div></div></div>
       <div class="sbar-row"><span class="sbar-name">Mucho</span>
-        <div class="sbar-track"><div class="sbar-fill" style="background:#734a5c" data-w="42.72"><span>42,72%</span></div></div></div>
+        <div class="sbar-track"><div class="sbar-fill" style="background:#734a5c" data-w="42.7"><span>42,7%</span></div></div></div>
       <div class="sbar-row"><span class="sbar-name">Nada</span>
-        <div class="sbar-track"><div class="sbar-fill" style="background:#3e2530" data-w="12.62"><span>12,62%</span></div></div></div>
+        <div class="sbar-track"><div class="sbar-fill" style="background:#3e2530" data-w="12.6"><span>12,6%</span></div></div></div>
     </div>
     <p class="cite reveal reveal-d3" style="margin-top:.8rem;">GRÁFICO 0.3 · ATENCIÓN A LA VERACIDAD — PORTALES DE NOTICIAS</p>
   </div>
@@ -325,19 +334,19 @@ p.body-text{ font-size:1.06rem; line-height:1.65; margin:0 0 1.1rem; max-width:6
     <p class="eyebrow reveal">Compartir, comentar y discutir ¿por qué?</p>
     <h2 class="chapter-title reveal reveal-d1" style="max-width:22ch;">Lo ocasional cobra sentido cuando se
       pregunta "¿por qué?"</h2>
-    <p class="body-text reveal reveal-d2">El 61,17% de los encuestados compartió una noticia por redes sociales o
-      mensajería en los últimos 15 días — aunque sólo el 15,53% lo hace frecuentemente.</p>
+    <p class="body-text reveal reveal-d2">El 61,2% de los encuestados compartió una noticia por redes sociales o
+      mensajería en los últimos 15 días — aunque sólo el 15,5% lo hace frecuentemente.</p>
 
     <div class="vbar-wrap reveal reveal-d2" id="chartShare15">
-      <div class="vbar-col"><div class="vbar" style="background:var(--rose)" data-h="61.17"><span class="val">61,17%</span></div><p class="vbar-label">Sí compartió</p></div>
-      <div class="vbar-col"><div class="vbar" style="background:#3a3a3a" data-h="38.83"><span class="val">38,83%</span></div><p class="vbar-label">No compartió</p></div>
+      <div class="vbar-col"><div class="vbar" style="background:var(--rose)" data-h="61.2"><span class="val">61,2%</span></div><p class="vbar-label">Sí compartió</p></div>
+      <div class="vbar-col"><div class="vbar" style="background:#3a3a3a" data-h="38.8"><span class="val">38,8%</span></div><p class="vbar-label">No compartió</p></div>
     </div>
     <p class="cite reveal reveal-d2" style="margin-top:.9rem;">GRÁFICO 0.5 · COMPARTICIÓN DE NOTICIAS, ÚLTIMOS 15 DÍAS</p>
 
     <div class="vbar-wrap reveal reveal-d3" id="chartShareFreq" style="margin-top:2.6rem;">
-      <div class="vbar-col"><div class="vbar" style="background:var(--rose)" data-h="57.28"><span class="val">57,28%</span></div><p class="vbar-label">Ocasionalmente</p></div>
-      <div class="vbar-col"><div class="vbar" style="background:#734a5c" data-h="27.18"><span class="val">27,18%</span></div><p class="vbar-label">Nunca</p></div>
-      <div class="vbar-col"><div class="vbar" style="background:#3e2530" data-h="15.53"><span class="val">15,53%</span></div><p class="vbar-label">Frecuentemente</p></div>
+      <div class="vbar-col"><div class="vbar" style="background:var(--rose)" data-h="57.3"><span class="val">57,3%</span></div><p class="vbar-label">Ocasionalmente</p></div>
+      <div class="vbar-col"><div class="vbar" style="background:#734a5c" data-h="27.2"><span class="val">27,2%</span></div><p class="vbar-label">Nunca</p></div>
+      <div class="vbar-col"><div class="vbar" style="background:#3e2530" data-h="15.5"><span class="val">15,5%</span></div><p class="vbar-label">Frecuentemente</p></div>
     </div>
     <p class="cite reveal reveal-d3" style="margin-top:.9rem;">GRÁFICO 0.6 · FRECUENCIA DE COMPARTICIÓN</p>
 
@@ -352,13 +361,13 @@ p.body-text{ font-size:1.06rem; line-height:1.65; margin:0 0 1.1rem; max-width:6
 <section class="chapter chapter--light" id="discutir">
   <div class="frame frame--wide">
     <p class="eyebrow reveal">¿Silencio pasivo o consideración activa?</p>
-    <p class="body-text reveal reveal-d1">El 45,63% nunca comenta ni discute sobre noticias por redes sociales — y
-      el 41,75% sólo lo hace si le interesa la noticia. Pero no debatir online no equivale, sin más, a pasividad.</p>
+    <p class="body-text reveal reveal-d1">El 45,6% nunca comenta ni discute sobre noticias por redes sociales — y
+      el 41,8% sólo lo hace si le interesa la noticia. Pero no debatir online no equivale, sin más, a pasividad.</p>
 
     <div class="vbar-wrap reveal reveal-d2" id="chartDiscuss">
-      <div class="vbar-col"><div class="vbar" style="background:var(--wine)" data-h="45.63"><span class="val">45,63%</span></div><p class="vbar-label">Nunca</p></div>
-      <div class="vbar-col"><div class="vbar" style="background:#a35a76" data-h="41.75"><span class="val">41,75%</span></div><p class="vbar-label">Solo si me interesa</p></div>
-      <div class="vbar-col"><div class="vbar" style="background:#c98aa4" data-h="12.62"><span class="val">12,62%</span></div><p class="vbar-label">Habitualmente</p></div>
+      <div class="vbar-col"><div class="vbar" style="background:var(--wine)" data-h="45.6"><span class="val">45,6%</span></div><p class="vbar-label">Nunca</p></div>
+      <div class="vbar-col"><div class="vbar" style="background:#a35a76" data-h="41.8"><span class="val">41,8%</span></div><p class="vbar-label">Solo si me interesa</p></div>
+      <div class="vbar-col"><div class="vbar" style="background:#c98aa4" data-h="12.6"><span class="val">12,6%</span></div><p class="vbar-label">Habitualmente</p></div>
     </div>
     <p class="cite reveal reveal-d2" style="margin-top:.9rem;">GRÁFICO 0.7 · DISPOSICIÓN A COMENTAR / DISCUTIR</p>
 
@@ -401,10 +410,9 @@ p.body-text{ font-size:1.06rem; line-height:1.65; margin:0 0 1.1rem; max-width:6
       denotan la coexistencia de prácticas activas y pasivas: la desconfianza sobre las redes convive con la
       "credulidad" hacia los portales; la atención a la fidelidad de una noticia convive con la inactividad de no
       compartir, comentar o discutir online — algo que a su vez convive con el debate en "la vida real".</p>
-    <div class="pull reveal reveal-d3" style="border-left-color:#fff; color:#fbeef2; max-width:58ch;">El océano es
-      avasallante y algunos se dejarán llevar por la inercia, otros intentarán controlarlo, y habrá aquienes para
-      quienes no se tratará de dominar el agua, sino sus movimientos en ella.
-      <cite style="color:#e6b9cc;">CIERRE DE LA PONENCIA</cite>
+    <div class="pull reveal reveal-d3" style="border-left-color:#fff; color:#fbeef2; max-width:58ch;">Las audiencias
+      son activas y, a veces, hiperactivas... pero también son capaces de dispersarse y perderse en lo banal.
+      <cite style="color:#e6b9cc;">OROZCO, 1997</cite>
     </div>
   </div>
 </section>
@@ -414,7 +422,7 @@ p.body-text{ font-size:1.06rem; line-height:1.65; margin:0 0 1.1rem; max-width:6
   <div class="frame frame--wide">
     <p class="eyebrow reveal">Ficha del estudio</p>
     <div class="study-card reveal reveal-d1">
-      <div><span>MUESTRA</span><strong>125 estudiantes</strong></div>
+      <div><span>MUESTRA</span><strong>234 estudiantes</strong></div>
       <div><span>PERFIL</span><strong>Comunicación (UBA), 18–25</strong></div>
       <div><span>EJE TEMÁTICO</span><strong>Medios y tecnologías digitales</strong></div>
       <div><span>PRESENTADO EN</span><strong>Jornadas IIGG, oct. 2024</strong></div>
@@ -458,6 +466,8 @@ p.body-text{ font-size:1.06rem; line-height:1.65; margin:0 0 1.1rem; max-width:6
 <footer class="closing">
   <div>
     <p class="closing__title">Una cosa no quita la otra</p>
+    <p class="closing__subtitle">Entre la manipulación y la agencia: consumo incidental de noticias por redes
+      sociales</p>
     <p class="closing__foot">JOSÉ MARIO SANDOVAL · INSTITUTO DE INVESTIGACIONES GINO GERMANI</p>
   </div>
 </footer>
@@ -482,13 +492,12 @@ function countUp(el, target, dur=1100){
   const start = performance.now();
   function step(t){
     const p = Math.min(1,(t-start)/dur);
-    el.textContent = (target*p).toFixed(2).replace('.', ',') + '%';
+    el.textContent = (target*p).toFixed(1).replace('.', ',') + '%';
     if(p<1) requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
 }
 function makeDonut(wrapId, segs, valIds){
-  // segs: array of {id, value}
   const wrap = document.getElementById(wrapId);
   if(!wrap) return;
   const obs = new IntersectionObserver((entries)=>{
@@ -509,9 +518,14 @@ function makeDonut(wrapId, segs, valIds){
   }, {threshold:0.35});
   obs.observe(wrap);
 }
-makeDonut('donutAge', [{id:'segAge1',value:82.40},{id:'segAge2',value:17.60}], ['valAge1','valAge2']);
-makeDonut('donutInterest', [{id:'segInt1',value:51.46},{id:'segInt2',value:46.60},{id:'segInt3',value:1.94}], ['valInt1','valInt2','valInt3']);
-makeDonut('donutNoComment', [{id:'segNC1',value:53.19},{id:'segNC2',value:42.55},{id:'segNC3',value:4.26}], ['valNC1','valNC2','valNC3']);
+makeDonut('donutAge', [
+  {id:'segAge1', value:75.2},
+  {id:'segAge2', value:20.9},
+  {id:'segAge3', value:3.0},
+  {id:'segAge4', value:0.85}
+], ['valAge1','valAge2','valAge3','valAge4']);
+makeDonut('donutInterest', [{id:'segInt1',value:51.5},{id:'segInt2',value:46.6},{id:'segInt3',value:1.9}], ['valInt1','valInt2','valInt3']);
+makeDonut('donutNoComment', [{id:'segNC1',value:53.2},{id:'segNC2',value:42.6},{id:'segNC3',value:4.3}], ['valNC1','valNC2','valNC3']);
 
 function observeBars(id, selector, prop){
   const el = document.getElementById(id);
