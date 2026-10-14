@@ -211,6 +211,8 @@ svg text{font-family:'Inter',sans-serif}
       <div class="legend" id="legend-md"></div>
       <svg id="chart-md" viewBox="0 0 300 260"></svg>
       <div class="footer-note">CADA AÑO SUMA 100%</div>
+      <div class="accum-title">Total acumulado · 2024-2026 juntos</div>
+      <svg id="chart-md-total" viewBox="0 0 300 80"></svg>
     </div>
     <div class="card">
       <span class="badge">PARTICIPACIÓN</span>
@@ -688,6 +690,7 @@ function renderAll(){
   renderPctBars('chart-comenta-total', filtered, 'comenta', CATS_COMENTA, COLORS_COMENTA);
 
   renderGroupedByYear('chart-md', filtered, 'comparte_md', ['Sí','No'], COLORS_SINO, years, 'legend-md');
+  renderPctBars('chart-md-total', filtered, 'comparte_md', ['Sí','No'], COLORS_SINO);
   renderRanked('chart-md-red', filtered.filter(r=>r.md_red && r.md_red.length), 'md_red', true, null);
 
   // ---- CONTROL DEL CONTENIDO (estrategia) ----
