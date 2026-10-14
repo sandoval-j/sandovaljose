@@ -304,8 +304,8 @@ svg text{font-family:'Inter',sans-serif}
     <span class="badge">USO DE IA</span>
     <h2>¿Para qué usás la inteligencia artificial?</h2>
     <svg id="chart-ia-para-que" viewBox="0 0 640 300"></svg>
-    <div class="footer-note">% = MENCIONES / PERSONAS DEL FILTRO</div>
-    <div class="note-block"><b>Nota:</b> esta pregunta solo se incluyó en las encuestas de 2025 y 2026 — no existe dato de 2024.</div>
+    <div class="footer-note">% = MENCIONES / PERSONAS QUE RESPONDIERON ESTA PREGUNTA</div>
+    <div class="note-block"><b>Nota:</b> esta pregunta solo se incluyó en las encuestas de 2025 y 2026 — no existe dato de 2024. Es una pregunta de seguimiento: la mayoría de quienes dijeron no usar IA no la contestaron, por eso no entran en la base del porcentaje.</div>
   </div>
 
   <div class="card">
@@ -674,7 +674,7 @@ function renderAll(){
   const COLORS_INFORMADO = {'Si':TEAL, 'No lo suficiente':MUSTARD, 'Por demás':NAVY, 'No':TERRACOTTA};
   renderRanked('chart-informado', filtered, 'informado', false, null, COLORS_INFORMADO, [2026]);
 
-  renderRanked('chart-ia-para-que', filtered, 'ia_para_que', true, null, null, [2025,2026]);
+  renderRanked('chart-ia-para-que', filtered.filter(r=>r.ia_para_que && r.ia_para_que.length), 'ia_para_que', true, null, null, [2025,2026]);
 
   // ---- PARTICIPACIÓN ----
   const CATS_COMPARTE = ['Nunca','Ocasionalmente','Frecuentemente'];
@@ -714,4 +714,5 @@ renderAll();
 </script>
 </body>
 </html>
+
 
