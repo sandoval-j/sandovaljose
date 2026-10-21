@@ -115,15 +115,97 @@ svg text{font-family:'Inter',sans-serif}
   .floating-filters:hover{background:#1F3A5F}
   .floating-filters:focus-visible,.back-index:focus-visible,.filters-head:focus-visible{outline:3px solid #D9A441;outline-offset:3px}
   @media(max-width:760px){.floating-filters{right:12px;bottom:58px;padding:9px 11px}}
+
+/* ===================== MENÚ LATERAL (hamburguesa) con solapas: Índice | Filtros ===================== */
+html{scroll-padding-top:60px}
+.page{padding-top:64px}
+
+/* botón fijo arriba a la izquierda */
+.nav-toggle{position:fixed;top:12px;left:12px;z-index:60;display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:0;border-radius:999px;background:#1F3A5F;color:#fff;font-family:inherit;font-size:12.5px;font-weight:800;line-height:1;letter-spacing:.02em;cursor:pointer;box-shadow:0 7px 18px rgba(31,58,95,.28)}
+.nav-toggle:hover{background:#2A8577}
+.nav-toggle:focus-visible,.nav-close:focus-visible,.chip:focus-visible{outline:3px solid #D9A441;outline-offset:3px}
+.nav-burger{font-size:16px;line-height:1}
+.nav-badge,.nav-tab-badge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:#D9A441;color:#1C1C1A;font-size:11px;font-weight:800;letter-spacing:0}
+.nav-badge[hidden],.nav-tab-badge[hidden]{display:none}
+
+/* fondo oscurecido */
+.nav-overlay{position:fixed;top:0;right:0;bottom:0;left:0;z-index:70;background:rgba(20,28,40,.52);opacity:0;visibility:hidden;transition:opacity .25s ease, visibility 0s linear .25s}
+.nav-overlay.open{opacity:1;visibility:visible;transition-delay:0s}
+
+/* panel lateral */
+.nav-drawer{position:fixed;top:0;bottom:0;left:0;z-index:80;display:flex;flex-direction:column;width:340px;max-width:90vw;background:var(--bg);box-shadow:8px 0 30px rgba(20,28,40,.22);transform:translateX(-104%);visibility:hidden;transition:transform .28s cubic-bezier(.22,.8,.3,1), visibility 0s linear .28s}
+.nav-drawer.open{transform:translateX(0);visibility:visible;transition-delay:0s}
+@media(max-width:640px){.nav-drawer{width:88vw;max-width:none}}
+.nav-drawer:focus{outline:none}
+.nav-drawer-head{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:#1F3A5F;color:#fff}
+.nav-drawer-title{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+.nav-close{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border:0;border-radius:50%;background:rgba(255,255,255,.17);color:#fff;font-family:inherit;font-size:22px;line-height:1;cursor:pointer}
+.nav-close:hover{background:rgba(255,255,255,.3)}
+
+/* solapas: dos botones lado a lado, siempre visibles arriba del contenido */
+.nav-tabs{flex:0 0 auto;display:flex;background:#E7E6E0;border-bottom:1px solid var(--faint)}
+.nav-tab{flex:1 1 0;display:flex;align-items:center;justify-content:center;gap:7px;padding:14px 10px 12px;border:0;border-radius:0;background:transparent;color:#5B5A56;font-family:inherit;font-size:12px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;cursor:pointer;box-shadow:inset 0 -3px 0 transparent;transition:background .15s ease, color .15s ease, box-shadow .15s ease}
+.nav-tab + .nav-tab{border-left:1px solid var(--faint)}
+.nav-tab:hover{background:rgba(255,255,255,.45);color:#1F3A5F}
+.nav-tab.is-active{background:var(--bg);color:#1F3A5F;box-shadow:inset 0 -3px 0 #2A8577}
+.nav-tab:focus-visible{outline:3px solid #D9A441;outline-offset:-3px}
+
+/* contenido de la solapa activa */
+.nav-drawer-body{flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:16px 14px 32px}
+
+/* bloquear el scroll de la página mientras el panel está abierto */
+html.nav-open,html.nav-open body{overflow:hidden}
+
+/* el índice y los filtros conservan su diseño; solo se adaptan al ancho del panel */
+#nav-drawer .report-index{margin:0}
+#nav-drawer .report-index summary{display:none}      /* la solapa "Índice" ya hace de título */
+#nav-drawer .index-body{padding:14px}
+#nav-drawer .index-grid{grid-template-columns:1fr}
+#nav-drawer .filters-wrap{position:static;z-index:auto;margin:0}
+#nav-drawer .filters{background:var(--card);backdrop-filter:none;box-shadow:none;padding:14px 16px}
+#nav-drawer .filters-head{pointer-events:none;cursor:default}
+#nav-drawer .chevron{display:none}
+#nav-drawer .filters-body,
+#nav-drawer .filters.collapsed .filters-body{max-height:none;overflow:visible;opacity:1;margin-top:12px}
+
+@media (prefers-reduced-motion:reduce){
+  .nav-drawer,.nav-overlay,.nav-tab{transition:none}
+}
+@media print{
+  .nav-toggle,.nav-overlay,.nav-drawer{display:none!important}
+}
+
+/* ===================== CONTADOR "n = …" FLOTANTE (mismo carril que "↑ Índice" y "⚙ Filtros") ===================== */
+.floating-n{position:fixed;right:18px;bottom:114px;z-index:50;display:inline-flex;align-items:center;gap:5px;padding:8px 11px;border:2px solid #1F3A5F;border-radius:999px;background:#fff;color:#1F3A5F;font-size:12px;font-weight:800;line-height:1.2;font-variant-numeric:tabular-nums;box-shadow:0 7px 18px rgba(31,58,95,.18);cursor:default;user-select:none}
+.floating-n.is-filtered{background:#D9A441;border-color:#D9A441;color:#1C1C1A;box-shadow:0 7px 18px rgba(217,164,65,.38)}
+@media(max-width:760px){.floating-n{right:12px;bottom:104px;padding:7px 9px}}
+@media print{.floating-n{display:none!important}}
 </style>
 </head>
 <body>
+<button type="button" class="nav-toggle" id="nav-toggle" aria-controls="nav-drawer" aria-expanded="false" aria-label="Abrir navegación"><span class="nav-burger" aria-hidden="true">☰</span><span>Navegación</span><span class="nav-badge" id="nav-badge" hidden></span></button>
+<div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+<aside class="nav-drawer" id="nav-drawer" role="dialog" aria-modal="true" aria-labelledby="nav-drawer-title" tabindex="-1">
+  <div class="nav-drawer-head">
+    <span class="nav-drawer-title" id="nav-drawer-title">Informe</span>
+    <button type="button" class="nav-close" id="nav-close" aria-label="Cerrar navegación">×</button>
+  </div>
+  <div class="nav-tabs" role="tablist" aria-label="Apartados del panel">
+    <button type="button" class="nav-tab is-active" id="nav-tab-indice" role="tab" aria-selected="true" aria-controls="nav-slot-indice">Índice</button>
+    <button type="button" class="nav-tab" id="nav-tab-filtros" role="tab" aria-selected="false" aria-controls="nav-slot-filtros" tabindex="-1"><span>Filtros</span><span class="nav-tab-badge" id="nav-tab-badge" hidden></span></button>
+  </div>
+  <div class="nav-drawer-body" id="nav-drawer-body">
+    <div id="nav-slot-indice" role="tabpanel" aria-labelledby="nav-tab-indice"></div>
+    <div id="nav-slot-filtros" role="tabpanel" aria-labelledby="nav-tab-filtros" hidden></div>
+  </div>
+</aside>
+<div class="floating-n" id="floating-n" role="status" aria-live="polite" aria-atomic="true" title="Cantidad de encuestados en la segmentación actual"><span>n = </span><span id="floating-n-value">867</span></div>
 <div class="page">
 <header class="top">
 <div class="eyebrow">Reporte sobre Interés y Confianza</div>
 <h1>Prácticas informativas de estudiantes de COMU-UBA (2024-2026)</h1>
-<div class="desc">Los filtros de abajo quedan siempre a mano mientras recorrés el informe. Segmentá y los gráficos se recalculan en vivo.</div>
-<div class="footer-note">REPORTE ORGANIZADO EN 10 SECCIONES · TARJETAS NUMERADAS PARA FACILITAR LA REFERENCIA</div></header><details class="report-index" id="indice"><summary>Índice del informe</summary><div class="index-body"><p class="index-help">Seleccioná una sección o una tarjeta para ir directamente al contenido.</p><div class="index-grid"><div class="index-group"><a class="index-section-link" href="#seccion-1"><span class="index-pill">1</span><span>Perfil de la muestra y situación laboral</span></a><ul class="index-cards"><li><a href="#tarjeta-1-1">1.1 · Quiénes respondieron la encuesta</a></li><li><a href="#tarjeta-1-2">1.2 · Situación laboral y vínculo con noticias</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-2"><span class="index-pill">2</span><span>Formatos y contenidos</span></a><ul class="index-cards"><li><a href="#tarjeta-2-1">2.1 · Preferencia de formato para informarse</a></li><li><a href="#tarjeta-2-2">2.2 · Duración elegida para informarse</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-3"><span class="index-pill">3</span><span>Medios, dispositivos y portales de noticias</span></a><ul class="index-cards"><li><a href="#tarjeta-3-1">3.1 · Dispositivos preferidos para informarse</a></li><li><a href="#tarjeta-3-2">3.2 · Uso de TV y canales más mencionados</a></li><li><a href="#tarjeta-3-3">3.3 · Uso de radio y señales más mencionadas</a></li><li><a href="#tarjeta-3-4">3.4 · Portales de noticias utilizados para informarse</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-4"><span class="index-pill">4</span><span>Interés, confianza y criterios informativos</span></a><ul class="index-cards"><li><a href="#tarjeta-4-1">4.1 · Atención a si una noticia es real o falsa</a></li><li><a href="#tarjeta-4-2">4.2 · Tiempo que destinan a informarse</a></li><li><a href="#tarjeta-4-3">4.3 · ¿Qué grado de interés te despiertan las noticias?</a></li><li><a href="#tarjeta-4-4">4.4 · ¿En las últimas 48 horas te llegó información que considerás falsa?</a></li><li><a href="#tarjeta-4-5">4.5 · ¿Sentís que estás informado/a?</a></li><li><a href="#tarjeta-4-6">4.6 · Qué se valora de un medio a la hora de informarse</a></li><li><a href="#tarjeta-4-7">4.7 · Temas de mayor interés</a></li><li><a href="#tarjeta-4-8">4.8 · Temas de menor interés</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-5"><span class="index-pill">5</span><span>Mulltitasking y profundidad de lectura</span></a><ul class="index-cards"><li><a href="#tarjeta-5-1">5.1 · En las últimas 24 horas leyeron al menos una nota completa</a></li><li><a href="#tarjeta-5-2">5.2 · Realiza otras actividades mientras se informa</a></li><li><a href="#tarjeta-5-3">5.3 · Qué leen cuando acceden a noticias por redes</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-6"><span class="index-pill">6</span><span>Acceso, redes sociales, participación e interacciones</span></a><ul class="index-cards"><li><a href="#tarjeta-6-1">6.1 · ¿Cómo accedés en general a las noticias del día?</a></li><li><a href="#tarjeta-6-2">6.2 · ¿Usás redes sociales para informarte? ¿Cuáles?</a></li><li><a href="#tarjeta-6-3">6.3 · ¿Con qué frecuencia compartís noticias o información relevante en tus redes sociales?</a></li><li><a href="#tarjeta-6-4">6.4 · ¿Comentás / discutís sobre las noticias por redes sociales?</a></li><li><a href="#tarjeta-6-5">6.5 · ¿Compartiste una noticia en los últimos 15 días por mensaje directo (WhatsApp, Instagram, etc.)?</a></li><li><a href="#tarjeta-6-6">6.6 · ¿En qué red social? (quienes lo especificaron)</a></li><li><a href="#tarjeta-6-7">6.7 · ¿Qué estrategia usás para no ver cierto contenido?</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-7"><span class="index-pill">7</span><span>Streaming</span></a><ul class="index-cards"><li><a href="#tarjeta-7-1">7.1 · Streaming para informarse: plataformas y canales</a></li><li><a href="#tarjeta-7-2">7.2 · Relación con los canales de streaming 2025-2026</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-8"><span class="index-pill">8</span><span>Suscripciones y apoyo económico</span></a><ul class="index-cards"><li><a href="#tarjeta-8-1">8.1 · ¿Pagaste y/o colaboraste económicamente por contenido informativo?</a></li><li><a href="#tarjeta-8-2">8.2 · ¿Estás suscripto/a y/o recibís notificaciones o newsletter de algún medio?</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-9"><span class="index-pill">9</span><span>Inteligencia artificial</span></a><ul class="index-cards"><li><a href="#tarjeta-9-1">9.1 · ¿Chequeás si el contenido está producido por IA?</a></li><li><a href="#tarjeta-9-2">9.2 · ¿Para qué usás la inteligencia artificial?</a></li><li><a href="#tarjeta-9-3">9.3 · ¿Usás inteligencia artificial en tu vida diaria?</a></li><li><a href="#tarjeta-9-4">9.4 · ¿Qué IA usás?</a></li><li><a href="#tarjeta-9-5">9.5 · ¿Pagás alguna IA?</a></li><li><a href="#tarjeta-9-6">9.6 · ¿Tenés alguna IA instalada en tu dispositivo?</a></li><li><a href="#tarjeta-9-7">9.7 · "La IA va a terminar con nuestro trabajo en comunicación": ¿cuán de acuerdo estás?</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-10"><span class="index-pill">10</span><span>Síntesis general</span></a><ul class="index-cards"><li><a href="#tarjeta-10-1">10.1 · Algunas observaciones</a></li></ul></div></div></div></details>
+<div class="desc">Usá el botón ☰ Navegación para ir a cualquier sección y para aplicar filtros. Los gráficos se recalculan en vivo.</div>
+<div class="footer-note">REPORTE ORGANIZADO EN 10 SECCIONES · TARJETAS NUMERADAS PARA FACILITAR LA REFERENCIA</div></header><details class="report-index" id="indice"><summary>Índice del informe</summary><div class="index-body"><p class="index-help">Seleccioná una sección o una tarjeta para ir directamente al contenido.</p><div class="index-grid"><div class="index-group"><a class="index-section-link" href="#seccion-1"><span class="index-pill">1</span><span>Perfil de la muestra y situación laboral</span></a><ul class="index-cards"><li><a href="#tarjeta-1-1">1.1 · Quiénes respondieron la encuesta</a></li><li><a href="#tarjeta-1-2">1.2 · Situación laboral y vínculo con noticias</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-2"><span class="index-pill">2</span><span>Formatos y contenidos</span></a><ul class="index-cards"><li><a href="#tarjeta-2-1">2.1 · Preferencia de formato para informarse</a></li><li><a href="#tarjeta-2-2">2.2 · Duración elegida para informarse</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-3"><span class="index-pill">3</span><span>Medios, dispositivos y portales de noticias</span></a><ul class="index-cards"><li><a href="#tarjeta-3-1">3.1 · Dispositivos preferidos para informarse</a></li><li><a href="#tarjeta-3-2">3.2 · Uso de TV y canales más mencionados</a></li><li><a href="#tarjeta-3-3">3.3 · Uso de radio y señales más mencionadas</a></li><li><a href="#tarjeta-3-4">3.4 · Portales de noticias utilizados para informarse</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-4"><span class="index-pill">4</span><span>Interés, confianza y criterios informativos</span></a><ul class="index-cards"><li><a href="#tarjeta-4-1">4.1 · Atención a si una noticia es real o falsa</a></li><li><a href="#tarjeta-4-2">4.2 · Tiempo que destinan a informarse</a></li><li><a href="#tarjeta-4-3">4.3 · ¿Qué grado de interés te despiertan las noticias?</a></li><li><a href="#tarjeta-4-4">4.4 · ¿En las últimas 48 horas te llegó información que considerás falsa?</a></li><li><a href="#tarjeta-4-5">4.5 · ¿Sentís que estás informado/a?</a></li><li><a href="#tarjeta-4-6">4.6 · Qué se valora de un medio a la hora de informarse</a></li><li><a href="#tarjeta-4-7">4.7 · Temas de mayor interés</a></li><li><a href="#tarjeta-4-8">4.8 · Temas de menor interés</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-5"><span class="index-pill">5</span><span>Mulltitasking y profundidad de lectura</span></a><ul class="index-cards"><li><a href="#tarjeta-5-1">5.1 · En las últimas 24 horas leyeron al menos una nota completa</a></li><li><a href="#tarjeta-5-2">5.2 · Realiza otras actividades mientras se informa</a></li><li><a href="#tarjeta-5-3">5.3 · Qué leen cuando acceden a noticias por redes</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-6"><span class="index-pill">6</span><span>Acceso, redes sociales, participación e interacciones</span></a><ul class="index-cards"><li><a href="#tarjeta-6-1">6.1 · ¿Cómo accedés en general a las noticias del día?</a></li><li><a href="#tarjeta-6-2">6.2 · ¿Usás redes sociales para informarte? ¿Cuáles?</a></li><li><a href="#tarjeta-6-3">6.3 · ¿Con qué frecuencia compartís noticias o información relevante en tus redes sociales?</a></li><li><a href="#tarjeta-6-4">6.4 · ¿Comentás / discutís sobre las noticias por redes sociales?</a></li><li><a href="#tarjeta-6-5">6.5 · ¿Compartiste una noticia en los últimos 15 días por mensaje directo (WhatsApp, Instagram, etc.)?</a></li><li><a href="#tarjeta-6-6">6.6 · ¿En qué red social? (quienes lo especificaron)</a></li><li><a href="#tarjeta-6-7">6.7 · ¿Qué estrategia usás para no ver cierto contenido?</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-7"><span class="index-pill">7</span><span>Streaming</span></a><ul class="index-cards"><li><a href="#tarjeta-7-1">7.1 · Streaming para informarse: plataformas y canales</a></li><li><a href="#tarjeta-7-2">7.2 · Relación con los canales incluidos en ambos años</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-8"><span class="index-pill">8</span><span>Suscripciones y apoyo económico</span></a><ul class="index-cards"><li><a href="#tarjeta-8-1">8.1 · ¿Pagaste y/o colaboraste económicamente por contenido informativo?</a></li><li><a href="#tarjeta-8-2">8.2 · ¿Estás suscripto/a y/o recibís notificaciones o newsletter de algún medio?</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-9"><span class="index-pill">9</span><span>Inteligencia artificial</span></a><ul class="index-cards"><li><a href="#tarjeta-9-1">9.1 · ¿Chequeás si el contenido está producido por IA?</a></li><li><a href="#tarjeta-9-2">9.2 · ¿Para qué usás la inteligencia artificial?</a></li><li><a href="#tarjeta-9-3">9.3 · ¿Usás inteligencia artificial en tu vida diaria?</a></li><li><a href="#tarjeta-9-4">9.4 · ¿Qué IA usás?</a></li><li><a href="#tarjeta-9-5">9.5 · ¿Pagás alguna IA?</a></li><li><a href="#tarjeta-9-6">9.6 · ¿Tenés alguna IA instalada en tu dispositivo?</a></li><li><a href="#tarjeta-9-7">9.7 · "La IA va a terminar con nuestro trabajo en comunicación": ¿cuán de acuerdo estás?</a></li></ul></div><div class="index-group"><a class="index-section-link" href="#seccion-10"><span class="index-pill">10</span><span>Síntesis general</span></a><ul class="index-cards"><li><a href="#tarjeta-10-1">10.1 · Algunas observaciones</a></li></ul></div></div></div></details>
 <div class="filters-wrap" id="filtros">
 <div class="filters collapsed" id="filters-panel">
 <div aria-controls="filters-body" aria-expanded="false" class="filters-head" id="filters-toggle" role="button" tabindex="0">
@@ -877,8 +959,214 @@ function iniciarGraficos(){
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',iniciarGraficos,{once:true});
 else iniciarGraficos();
 </script>
+<script>
+(function(){
+  'use strict';
+
+  var toggle      = document.getElementById('nav-toggle');
+  var overlay     = document.getElementById('nav-overlay');
+  var drawer      = document.getElementById('nav-drawer');
+  var closeBtn    = document.getElementById('nav-close');
+  var panelBody   = document.getElementById('nav-drawer-body');
+  var badge       = document.getElementById('nav-badge');
+  var tabBadge    = document.getElementById('nav-tab-badge');
+  var floatN      = document.getElementById('floating-n');          // píldora flotante "n = …"
+  var floatNValue = document.getElementById('floating-n-value');
+  var nSrc        = document.getElementById('n-count');             // el n que ya calcula el informe (panel de filtros)
+  var tablist     = drawer ? drawer.querySelector('.nav-tabs') : null;
+  var tabIndice   = document.getElementById('nav-tab-indice');
+  var tabFiltros  = document.getElementById('nav-tab-filtros');
+  var slotIndice  = document.getElementById('nav-slot-indice');
+  var slotFiltros = document.getElementById('nav-slot-filtros');
+  var indice      = document.getElementById('indice');   // <details> del índice (ya existente)
+  var filtros     = document.getElementById('filtros');  // panel de filtros (ya existente)
+
+  if(!toggle || !overlay || !drawer || !closeBtn || !panelBody || !tablist || !tabIndice || !tabFiltros ||
+     !slotIndice || !slotFiltros || !indice || !filtros){
+    console.warn('Menú lateral: faltan elementos; se deja el informe sin modificar.');
+    if(toggle) toggle.style.display = 'none';
+    return;
+  }
+
+  /* 1) Reutilizar el índice y los filtros que ya existen: se MUEVEN al panel, no se recrean.
+        Así conservan sus ids, sus eventos y todo el filtrado actual. */
+  indice.open = true;
+  slotIndice.appendChild(indice);
+  slotFiltros.appendChild(filtros);
+
+  var panelF = document.getElementById('filters-panel');
+  var headF  = document.getElementById('filters-toggle');
+  if(panelF) panelF.classList.remove('collapsed');   // dentro del panel, los filtros van siempre desplegados
+  if(headF){
+    headF.removeAttribute('role');
+    headF.removeAttribute('aria-expanded');
+    headF.removeAttribute('aria-controls');
+    headF.setAttribute('tabindex','-1');
+  }
+
+  /* 2) Solapas: Índice | Filtros (una a la vez, sin scroll entre ellas) */
+  var TABS = {
+    indice:  { tab: tabIndice,  panel: slotIndice  },
+    filtros: { tab: tabFiltros, panel: slotFiltros }
+  };
+  var ORDEN = ['indice','filtros'];
+  var current = 'indice';
+
+  function selectTab(name, focusTab){
+    if(!TABS[name]) name = 'indice';
+    current = name;
+    ORDEN.forEach(function(k){
+      var on = (k === name);
+      TABS[k].tab.setAttribute('aria-selected', on ? 'true' : 'false');
+      TABS[k].tab.setAttribute('tabindex', on ? '0' : '-1');
+      TABS[k].tab.classList.toggle('is-active', on);
+      TABS[k].panel.hidden = !on;
+    });
+    panelBody.scrollTop = 0;
+    if(focusTab) TABS[name].tab.focus({preventScroll:true});
+  }
+  tabIndice.addEventListener('click',  function(){ selectTab('indice'); });
+  tabFiltros.addEventListener('click', function(){ selectTab('filtros'); });
+  tablist.addEventListener('keydown', function(e){
+    var i = ORDEN.indexOf(current), n = null;
+    if(e.key === 'ArrowRight')     n = ORDEN[(i + 1) % ORDEN.length];
+    else if(e.key === 'ArrowLeft') n = ORDEN[(i - 1 + ORDEN.length) % ORDEN.length];
+    else if(e.key === 'Home')      n = ORDEN[0];
+    else if(e.key === 'End')       n = ORDEN[ORDEN.length - 1];
+    if(n){ e.preventDefault(); selectTab(n, true); }
+  });
+  selectTab('indice');
+
+  /* 3) Abrir / cerrar */
+  var opener = null;
+  function isOpen(){ return drawer.classList.contains('open'); }
+
+  function lockScroll(){
+    var sbw = window.innerWidth - document.documentElement.clientWidth;   // evita el salto lateral al ocultar la barra de scroll
+    document.documentElement.classList.add('nav-open');
+    if(sbw > 0 && sbw < 40) document.body.style.paddingRight = sbw + 'px';
+  }
+  function unlockScroll(){
+    document.documentElement.classList.remove('nav-open');
+    document.body.style.paddingRight = '';
+  }
+
+  /* tabName opcional: 'indice' | 'filtros'. Sin tabName se vuelve a la última solapa usada. */
+  function openDrawer(from, tabName){
+    if(tabName) selectTab(tabName);
+    if(isOpen()) return;
+    opener = from || toggle;
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    toggle.setAttribute('aria-expanded','true');
+    lockScroll();
+    setTimeout(function(){ closeBtn.focus({preventScroll:true}); }, 30);
+  }
+
+  function closeDrawer(opts){
+    if(!isOpen()) return;
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    toggle.setAttribute('aria-expanded','false');
+    unlockScroll();
+    if(!(opts && opts.noFocus)) (opener || toggle).focus({preventScroll:true});
+    opener = null;
+  }
+
+  toggle.addEventListener('click', function(){ if(isOpen()) closeDrawer(); else openDrawer(toggle); });
+  closeBtn.addEventListener('click', function(){ closeDrawer(); });     // botón ×
+  overlay.addEventListener('click', function(){ closeDrawer(); });      // clic fuera del panel
+
+  function focusables(){
+    return Array.prototype.slice.call(drawer.querySelectorAll('a[href], button:not([disabled]):not([tabindex="-1"]), summary, [tabindex]:not([tabindex="-1"])'))
+      .filter(function(el){ return el.getClientRects().length > 0; });   // ignora lo que está en la solapa oculta
+  }
+  document.addEventListener('keydown', function(e){
+    if(!isOpen()) return;
+    if(e.key === 'Escape'){ e.preventDefault(); closeDrawer(); return; }   // tecla Esc
+    if(e.key === 'Tab'){                                                     // el foco queda dentro del panel
+      var f = focusables();
+      if(!f.length) return;
+      var first = f[0], last = f[f.length-1], active = document.activeElement;
+      if(e.shiftKey && (active === first || !drawer.contains(active))){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && (active === last || !drawer.contains(active))){ e.preventDefault(); first.focus(); }
+    }
+  });
+
+  /* 4) Los enlaces del índice llevan a la sección / tarjeta y cierran el panel */
+  drawer.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if(!a) return;
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var target = id ? document.getElementById(id) : null;
+    if(!target) return;
+    e.preventDefault();
+    closeDrawer({noFocus:true});
+    setTimeout(function(){
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+      if(window.history && history.replaceState) history.replaceState(null, '', '#' + id);
+      if(!target.hasAttribute('tabindex')) target.setAttribute('tabindex','-1');
+      target.focus({preventScroll:true});
+    }, 80);
+  });
+
+  /* 5) Botones flotantes que ya tenía el informe: ahora abren el panel en la solapa que corresponde */
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[href="#indice"], a[href="#filtros"]') : null;
+    if(!a || drawer.contains(a)) return;
+    e.preventDefault();
+    openDrawer(a, a.getAttribute('href') === '#filtros' ? 'filtros' : 'indice');
+  });
+  var ff = document.getElementById('floating-filters');
+  if(ff && ff.parentNode){
+    var nf = ff.cloneNode(true);                 // el clon descarta el listener viejo (que hacía scroll a los filtros en la página)
+    ff.parentNode.replaceChild(nf, ff);
+    nf.addEventListener('click', function(){ openDrawer(nf, 'filtros'); });
+  }
+
+  /* 6) Indicador de filtros activos (en el botón y en la solapa "Filtros"), ya que quedan ocultos con el panel cerrado */
+  Array.prototype.forEach.call(filtros.querySelectorAll('.chip'), function(c){
+    c.setAttribute('role','button');
+    c.setAttribute('tabindex','0');
+  });
+  filtros.addEventListener('keydown', function(e){
+    if((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('chip')){
+      e.preventDefault();
+      e.target.click();
+    }
+  });
+  function syncEstado(){
+    var n = 0;
+    Array.prototype.forEach.call(filtros.querySelectorAll('.chip'), function(c){
+      var on = c.classList.contains('on');
+      c.setAttribute('aria-pressed', on ? 'true' : 'false');
+      if(on) n++;
+    });
+    if(floatN) floatN.classList.toggle('is-filtered', n > 0);
+    var txt = n ? String(n) : '';
+    badge.hidden = tabBadge.hidden = (n === 0);
+    badge.textContent = tabBadge.textContent = txt;
+    var plural = (n === 1 ? ' filtro activo' : ' filtros activos');
+    toggle.setAttribute('aria-label', n ? 'Abrir navegación (' + n + plural + ')' : 'Abrir navegación');
+    tabFiltros.setAttribute('aria-label', n ? 'Filtros (' + n + plural + ')' : 'Filtros');
+  }
+  new MutationObserver(syncEstado).observe(filtros, {subtree:true, attributes:true, attributeFilter:['class']});
+  syncEstado();
+
+  /* 7) Contador "n = …" flotante: copia en vivo el n de la segmentación actual (el mismo del panel de filtros),
+        así se ve sin abrir el panel y se puede tener en cuenta en todo momento */
+  function syncN(){ if(nSrc && floatNValue) floatNValue.textContent = nSrc.textContent.trim(); }
+  if(nSrc && floatNValue){
+    new MutationObserver(syncN).observe(nSrc, {childList:true, characterData:true, subtree:true});
+    syncN();
+  } else if(floatN){
+    floatN.style.display = 'none';
+  }
+})();
+</script>
 </body>
 </html>
+
 
 
 
